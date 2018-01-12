@@ -23,7 +23,6 @@ Class Welcome extends CI_Controller{
         $profil = $client->profil($userId);
         $pesan_datang = strtolower($message['text']);
         $pesan_datang_raw = $message['text'];
-        $id_user = $this->m_welcome->cek_daftar($userId);
         $reply['replyToken'] = $replyToken;
         $reply['messages'][0]['type'] = 'text';
 
@@ -34,7 +33,18 @@ Class Welcome extends CI_Controller{
                 array_values($pesan_pengaduan);
                 $reply_pengaduan =  implode(" ", $pesan_pengaduan);
 
-                $reply['messages'][0]['text'] = $reply_pengaduan . "\n" . $userId;
+                $pengaduan = $this->m_welcome->tambah_pengaduan($userId, $reply_pengaduan, date('Y-m-d H:i:s'));
+                if ($pengaduan != null) {
+                    $reply['messages'][0]['text'] = "Pengaduan anda telah kami terima dan sedang menunggu antrian untuk di proses. ID pengaduan anda = " . $pengaduan;
+                }
+            } else {
+                $jumlah_pengaduan = $this->m_welcome->cek_jumlah_pengaduan($userId);
+                if ($jumlah_pengaduan == 0) {
+                    $reply['messages'][0]['text'] = "Anda belum mengajukan aduan";
+                } else {
+                    $pengaduan_terakhir = $this->m_welcome->ambil_pengaduan_terakhir($userId);
+                    $this->m_welcome->tambah_chat_masuk($pengaduan_terakhir, $pesan_datang_raw, date('Y-m-d H:i:s'));
+                }
             }
         } else{
             $reply['messages'][0]['text'] = "Maaf, hanya teks yang dapat kami proses !!!";
