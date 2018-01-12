@@ -13,6 +13,25 @@ Class Welcome extends CI_Controller{
         date_default_timezone_set("Asia/Jakarta");
     }
 
+    function test_chat() {
+        $client     = new LINEBotTiny($this->channelAccessToken, $this->channelSecret);
+        $pesan = array();
+        foreach ($this->m_welcome->ambil_chat_masuk(12) as $item) {
+            $profil = $client->profil($item->id_line)->displayName;
+            $pesan[] = array(new DateTime($item->waktu), $profil, $item->chat);
+         }
+         foreach ($this->m_welcome->ambil_chat_keluar(12) as $item) {
+            $pesan[] = array(new DateTime($item->waktu), $item->nama, $item->chat);
+         } 
+        asort($pesan);
+        foreach ($pesan as $item) {
+            $waktu = $item[0]->format('Y-m-d H:i:s');
+            $nama = $item[1];
+            $chat = $item[2];
+            echo $waktu . " || " . $nama . " || " . $chat . "<br>";
+        }
+    }
+
     function index() {
         $client     = new LINEBotTiny($this->channelAccessToken, $this->channelSecret);
         $userId     = $client->parseEvents()[0]['source']['userId'];
@@ -27,7 +46,7 @@ Class Welcome extends CI_Controller{
         $reply['messages'][0]['type'] = 'text';
 
         if($message['type']=='text') {
-            if (strpos(strtolower($pesan_datang_raw), 'pengaduan') !== false) { 
+            if (strpos($pesan_datang, 'pengaduan') !== false) { 
                 $pesan_pengaduan = explode(' ', $pesan_datang_raw);
                 unset($pesan_pengaduan[0]);
                 array_values($pesan_pengaduan);
@@ -36,6 +55,24 @@ Class Welcome extends CI_Controller{
                 $pengaduan = $this->m_welcome->tambah_pengaduan($userId, $reply_pengaduan, date('Y-m-d H:i:s'));
                 if ($pengaduan != null) {
                     $reply['messages'][0]['text'] = "Pengaduan anda telah kami terima dan sedang menunggu antrian untuk di proses. ID pengaduan anda = " . $pengaduan;
+                }
+            } elseif ($pesan_datang == 'status') {
+                $i = 1;
+                foreach ($this->m_welcome->ambil_pengaduan($userId) as $item) {
+                    if ($item->status == 0) {
+                        $status = "Belum dibaca";
+                    } elseif ($item->status == 1) {
+                        $status = "Sedang diproses";
+                    } elseif ($item->status == 2) {
+                        $status = "Masalah Terselesaikan";
+                    } else {
+                        $status = "Error !!!";
+                    }
+                    $pesan_balasan = "Data Pengaduan\n";    
+                    $pesan_balasan .= $i . ") " . $item->waktu . "\n";    
+                    $pesan_balasan .= $item->chat."\n";    
+                    $pesan_balasan .= "Status = " . $status;    
+                    $i++;
                 }
             } else {
                 $jumlah_pengaduan = $this->m_welcome->cek_jumlah_pengaduan($userId);
