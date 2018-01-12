@@ -50,7 +50,8 @@ class M_welcome extends CI_Model{
 	function cek_jumlah_pengaduan($id_line) {
 		$sql = "SELECT count(*) total
 				FROM pengaduan
-				WHERE id_line = ?";
+				WHERE id_line = ?
+				AND status != 2";
 		return $this->db->query($sql, array($id_line))->row()->total;
 	}
 
@@ -58,6 +59,7 @@ class M_welcome extends CI_Model{
 		$sql = "SELECT id
 				FROM pengaduan
 				WHERE id_line = ?
+				AND status != 2
 				ORDER BY id DESC
 				LIMIT 1";
 		return $this->db->query($sql, array($id_line))->row()->id;

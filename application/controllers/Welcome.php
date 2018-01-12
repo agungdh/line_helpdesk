@@ -47,17 +47,23 @@ Class Welcome extends CI_Controller{
 
         if($message['type']=='text') {
             if (strpos($pesan_datang, 'pengaduan') !== false) { 
-                $pesan_pengaduan = explode(' ', $pesan_datang_raw);
-                unset($pesan_pengaduan[0]);
-                array_values($pesan_pengaduan);
-                $reply_pengaduan =  implode(" ", $pesan_pengaduan);
+                $jumlah_pengaduan = $this->m_welcome->cek_jumlah_pengaduan($userId);
+                if ($jumlah_pengaduan != 0) {
+                    $reply['messages'][0]['text'] = "Anda masih mempunyai pengaduan yang belum terselesaikan, anda dapat mengirim pengaduan baru jika pengeduan sebelumnya telah terselesaikan";
+                } else {
+                    $pesan_pengaduan = explode(' ', $pesan_datang_raw);
+                    unset($pesan_pengaduan[0]);
+                    array_values($pesan_pengaduan);
+                    $reply_pengaduan =  implode(" ", $pesan_pengaduan);
 
-                $pengaduan = $this->m_welcome->tambah_pengaduan($userId, $reply_pengaduan, date('Y-m-d H:i:s'));
-                if ($pengaduan != null) {
-                    $reply['messages'][0]['text'] = "Pengaduan anda telah kami terima dan sedang menunggu antrian untuk di proses. ID pengaduan anda = " . $pengaduan;
-                }
+                    $pengaduan = $this->m_welcome->tambah_pengaduan($userId, $reply_pengaduan, date('Y-m-d H:i:s'));
+                    if ($pengaduan != null) {
+                        $reply['messages'][0]['text'] = "Pengaduan anda telah kami terima dan sedang menunggu antrian untuk di proses. ID pengaduan anda = " . $pengaduan;
+                    }
+                }  
             } elseif ($pesan_datang == 'status') {
                 $i = 1;
+                $pesan_balasan = "Data Pengaduan\n";    
                 foreach ($this->m_welcome->ambil_pengaduan($userId) as $item) {
                     if ($item->status == 0) {
                         $status = "Belum dibaca";
@@ -68,12 +74,12 @@ Class Welcome extends CI_Controller{
                     } else {
                         $status = "Error !!!";
                     }
-                    $pesan_balasan = "Data Pengaduan\n";    
                     $pesan_balasan .= $i . ") " . $item->waktu . "\n";    
-                    $pesan_balasan .= $item->chat."\n";    
-                    $pesan_balasan .= "Status = " . $status;    
+                    $pesan_balasan .= $item->pengaduan . "\n";    
+                    $pesan_balasan .= "Status = " . $status . "\n";    
                     $i++;
                 }
+                $reply['messages'][0]['text'] = $pesan_balasan;    
             } else {
                 $jumlah_pengaduan = $this->m_welcome->cek_jumlah_pengaduan($userId);
                 if ($jumlah_pengaduan == 0) {
