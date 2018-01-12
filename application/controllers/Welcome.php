@@ -13,14 +13,14 @@ Class Welcome extends CI_Controller{
         date_default_timezone_set("Asia/Jakarta");
     }
 
-    function test_chat() {
+    function test_chat($id_pengaduan) {
         $client     = new LINEBotTiny($this->channelAccessToken, $this->channelSecret);
         $pesan = array();
-        foreach ($this->m_welcome->ambil_chat_masuk(12) as $item) {
+        foreach ($this->m_welcome->ambil_chat_masuk($id_pengaduan) as $item) {
             $profil = $client->profil($item->id_line)->displayName;
             $pesan[] = array(new DateTime($item->waktu), $profil, $item->chat);
          }
-         foreach ($this->m_welcome->ambil_chat_keluar(12) as $item) {
+         foreach ($this->m_welcome->ambil_chat_keluar($id_pengaduan) as $item) {
             $pesan[] = array(new DateTime($item->waktu), $item->nama, $item->chat);
          } 
         asort($pesan);
