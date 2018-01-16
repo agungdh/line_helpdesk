@@ -13,23 +13,9 @@ Class Welcome extends CI_Controller{
         date_default_timezone_set("Asia/Jakarta");
     }
 
-    function test_chat($id_pengaduan) {
+    function test($messageid) {
         $client     = new LINEBotTiny($this->channelAccessToken, $this->channelSecret);
-        $pesan = array();
-        foreach ($this->m_welcome->ambil_chat_masuk($id_pengaduan) as $item) {
-            $profil = $client->profil($item->id_line)->displayName;
-            $pesan[] = array(new DateTime($item->waktu), $profil, $item->chat);
-         }
-         foreach ($this->m_welcome->ambil_chat_keluar($id_pengaduan) as $item) {
-            $pesan[] = array(new DateTime($item->waktu), $item->nama, $item->chat);
-         } 
-        asort($pesan);
-        foreach ($pesan as $item) {
-            $waktu = $item[0]->format('Y-m-d H:i:s');
-            $nama = $item[1];
-            $chat = $item[2];
-            echo $waktu . " || " . $nama . " || " . $chat . "<br>";
-        }
+        $konten = $client->ambilKonten($messageid);
     }
 
     function index() {
@@ -90,7 +76,7 @@ Class Welcome extends CI_Controller{
                 }
             }
         } else{
-            $reply['messages'][0]['text'] = "Maaf, hanya teks yang dapat kami proses !!!";
+            $reply['messages'][0]['text'] = "Jenis pesan = " . $message['type'] . "\n" . "ID Pesan = " . $messageid;
         }   
 
         $client->replyMessage($reply);    
@@ -198,6 +184,13 @@ class LINEBotTiny
     {
       
         return json_decode(exec_get('https://api.line.me/v2/bot/profile/'.$userId,$this->channelAccessToken));
+       
+    }
+
+    public function ambilKonten($messageId)
+    {
+      
+        return json_decode(exec_get('https://api.line.me/v2/bot/message/'.$messageId.'/content',$this->channelAccessToken));
        
     }
 
