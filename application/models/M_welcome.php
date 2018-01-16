@@ -4,47 +4,13 @@ class M_welcome extends CI_Model{
 		parent::__construct();		
 	}
 
-	function ambil_pengaduan($id_line) {
-		$sql = "SELECT *
-				FROM pengaduan
-				WHERE id_line = ?";
-		return $this->db->query($sql, array($id_line))->result();
-	}
-
-	function ambil_chat_masuk($id_pengaduan) {
-		$sql = "SELECT cm.id, cm.id_pengaduan, cm.chat, cm.waktu, p.id_line
-				FROM chat_masuk cm, pengaduan p
-				WHERE cm.id_pengaduan = p.id
-				AND id_pengaduan = ?";
-		return $this->db->query($sql, array($id_pengaduan))->result();
-	}
-
-	function ambil_chat_keluar($id_pengaduan) {
-		$sql = "SELECT ck.id, ck.id_user, ck.id_pengaduan, ck.chat, ck.waktu, u.username, u.nama, u.level
-				FROM chat_keluar ck, user u
-				WHERE ck.id_user = u.id
-				AND ck.id_pengaduan = ?";
-		return $this->db->query($sql, array($id_pengaduan))->result();
-	}
-
-	function tambah_chat_masuk($id_pengaduan, $chat, $waktu) {
+	function tambah_chat_masuk($id_pengaduan, $tipe, $isi, $waktu) {
 		$sql = "INSERT INTO chat_masuk
 				SET id_pengaduan = ?,
-				chat = ?,
+				tipe = ?,
+				isi = ?,
 				waktu = ?";
-		$this->db->query($sql, array($id_pengaduan, $chat, $waktu));
-	}
-
-	function tambah_pengaduan($id_line, $pengaduan, $waktu) {
-		$sql = "INSERT INTO pengaduan
-				SET id_line = ?,
-				pengaduan = ?,
-				waktu = ?,
-				status = 0";
-		$this->db->query($sql, array($id_line, $pengaduan, $waktu));
-		$insert_id = $this->db->insert_id();
-
-		return $insert_id;
+		$this->db->query($sql, array($id_pengaduan, $tipe, $isi, $waktu));
 	}
 
 	function cek_jumlah_pengaduan($id_line) {
@@ -63,6 +29,43 @@ class M_welcome extends CI_Model{
 				ORDER BY id DESC
 				LIMIT 1";
 		return $this->db->query($sql, array($id_line))->row()->id;
+	}
+
+	function tambah_pengaduan($id_line, $pengaduan, $waktu) {
+		$sql = "INSERT INTO pengaduan
+				SET id_line = ?,
+				pengaduan = ?,
+				waktu = ?,
+				status = 0";
+		$this->db->query($sql, array($id_line, $pengaduan, $waktu));
+		$insert_id = $this->db->insert_id();
+
+		return $insert_id;
+	}
+
+// 
+
+	function ambil_pengaduan($id_line) {
+		$sql = "SELECT *
+				FROM pengaduan
+				WHERE id_line = ?";
+		return $this->db->query($sql, array($id_line))->result();
+	}
+
+	function ambil_chat_masuk($id_pengaduan) {
+		$sql = "SELECT cm.id, cm.id_pengaduan, cm.tipe, cm.isi, cm.waktu, p.id_line
+				FROM chat_masuk cm, pengaduan p
+				WHERE cm.id_pengaduan = p.id
+				AND id_pengaduan = ?";
+		return $this->db->query($sql, array($id_pengaduan))->result();
+	}
+
+	function ambil_chat_keluar($id_pengaduan) {
+		$sql = "SELECT ck.id, ck.id_user, ck.id_pengaduan, ck.tipe, ck.isi, ck.waktu, u.username, u.nama, u.level
+				FROM chat_keluar ck, user u
+				WHERE ck.id_user = u.id
+				AND ck.id_pengaduan = ?";
+		return $this->db->query($sql, array($id_pengaduan))->result();
 	}
 
 }

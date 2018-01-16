@@ -96,7 +96,7 @@ Class Welcome extends CI_Controller{
                 }
             }
         } else{
-            $reply['messages'][0]['text'] = "Jenis pesan = " . $message['type'] . "\n" . "ID Pesan = " . $messageid;
+            $reply['messages'][0]['text'] = "Jenis Pesan Yang Diizinkan Hanyalah Teks dan Gambar !!!";
         }   
 
         $client->replyMessage($reply);    
