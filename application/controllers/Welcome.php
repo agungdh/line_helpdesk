@@ -13,9 +13,29 @@ Class Welcome extends CI_Controller{
         date_default_timezone_set("Asia/Jakarta");
     }
 
-    function test($messageid) {
-        $client     = new LINEBotTiny($this->channelAccessToken, $this->channelSecret);
-        $konten = $client->ambilKonten($messageid);
+    function test($param_messageid) {
+        $alamat = 'https://api.line.me/v2/bot/message/'.$param_messageid.'/content';
+        $konten = exec_get($alamat, $this->channelAccessToken);    
+        
+        // $file = fopen("test/test","w");
+        // echo fwrite($file,$konten);
+        // fclose($file);
+        
+        echo '<img src="data:image;base64,'.base64_encode( $konten ).'"/>';
+    }
+
+    function test2(){
+        ?>
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <title></title>
+        </head>
+        <body>
+            <img src="<?php echo base_url('test/test'); ?>">
+        </body>
+        </html>
+        <?php
     }
 
     function index() {
