@@ -1,5 +1,5 @@
 <?php
-class M_welcome extends CI_Model{	
+class M_api extends CI_Model{	
 	function __construct(){
 		parent::__construct();		
 	}
@@ -13,11 +13,18 @@ class M_welcome extends CI_Model{
 		$this->db->query($sql, array($id_pengaduan, $tipe, $isi, $waktu));
 	}
 
-	function cek_jumlah_pengaduan($id_line) {
+	function cek_jumlah_pengaduan_aktif($id_line) {
 		$sql = "SELECT count(*) total
 				FROM pengaduan
 				WHERE id_line = ?
 				AND status != 2";
+		return $this->db->query($sql, array($id_line))->row()->total;
+	}
+
+	function cek_jumlah_pengaduan($id_line) {
+		$sql = "SELECT count(*) total
+				FROM pengaduan
+				WHERE id_line = ?";
 		return $this->db->query($sql, array($id_line))->row()->total;
 	}
 
@@ -48,8 +55,10 @@ class M_welcome extends CI_Model{
 	function ambil_pengaduan($id_line) {
 		$sql = "SELECT *
 				FROM pengaduan
-				WHERE id_line = ?";
-		return $this->db->query($sql, array($id_line))->result();
+				WHERE id_line = ?
+				ORDER BY id DESC
+				LIMIT 1";
+		return $this->db->query($sql, array($id_line))->row();
 	}
 
 	function ambil_chat_masuk($id_pengaduan) {

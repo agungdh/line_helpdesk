@@ -1,12 +1,12 @@
 <?php
-Class Welcome extends CI_Controller{
+Class Api extends CI_Controller{
     
     var $channelAccessToken; 
     var $channelSecret;
 
     function __construct() {
         parent::__construct();
-        $this->load->model('m_welcome');
+        $this->load->model('m_api');
 
         $this->channelAccessToken = 'mchj5ypkUUEAq2WvEMqR6BfROxk8l1JV8DvlAkNqZx6G3ZXUGq4ecN0DfqT8dr+ZiGnBZwGjdfJB0itvCcCLWR05UPoUM2ETakxFaNSmoZ9iCBpckQXL3n8krAUq35QXxuVwhb8b1AK8drhHEYI27QdB04t89/1O/w1cDnyilFU='; 
         $this->channelSecret = '2cf7003f0de82c2c18acc9389571da39';
@@ -53,7 +53,7 @@ Class Welcome extends CI_Controller{
 
         if($message['type']=='text' || $message['type']=='image') {
             if (strpos($pesan_datang, 'pengaduan') !== false) { 
-                $jumlah_pengaduan = $this->m_welcome->cek_jumlah_pengaduan($userId);
+                $jumlah_pengaduan = $this->m_api->cek_jumlah_pengaduan_aktif($userId);
                 if ($jumlah_pengaduan != 0) {
                     $reply['messages'][0]['text'] = "Anda masih mempunyai pengaduan yang belum terselesaikan, anda dapat mengirim pengaduan baru jika pengeduan sebelumnya telah terselesaikan";
                 } else {
@@ -62,37 +62,40 @@ Class Welcome extends CI_Controller{
                     array_values($pesan_pengaduan);
                     $reply_pengaduan =  implode(" ", $pesan_pengaduan);
 
-                    $pengaduan = $this->m_welcome->tambah_pengaduan($userId, $reply_pengaduan, date('Y-m-d H:i:s'));
+                    $pengaduan = $this->m_api->tambah_pengaduan($userId, $reply_pengaduan, date('Y-m-d H:i:s'));
                     if ($pengaduan != null) {
                         $reply['messages'][0]['text'] = "Pengaduan anda telah kami terima dan sedang menunggu antrian untuk di proses. ID pengaduan anda = " . $pengaduan;
                     }
                 }  
             } elseif ($pesan_datang == 'status') {
-                $i = 1;
                 $pesan_balasan = "Data Pengaduan\n";    
-                foreach ($this->m_welcome->ambil_pengaduan($userId) as $item) {
-                    if ($item->status == 0) {
-                        $status = "Belum dibaca";
-                    } elseif ($item->status == 1) {
-                        $status = "Sedang diproses";
-                    } elseif ($item->status == 2) {
-                        $status = "Masalah Terselesaikan";
-                    } else {
-                        $status = "Error !!!";
-                    }
-                    $pesan_balasan .= $i . ") " . $item->waktu . "\n";    
-                    $pesan_balasan .= $item->pengaduan . "\n";    
-                    $pesan_balasan .= "Status = " . $status . "\n";    
-                    $i++;
+                $item = $this->m_api->ambil_pengaduan($userId);
+                if ($item->status == 0) {
+                    $status = "Belum dibaca";
+                } elseif ($item->status == 1) {
+                    $status = "Sedang diproses";
+                } elseif ($item->status == 2) {
+                    $status = "Masalah Terselesaikan";
+                } else {
+                    $status = "Error !!!";
                 }
+                
+                $pesan_balasan .= $item->waktu . "\n";    
+                $pesan_balasan .= $item->pengaduan . "\n";    
+                $pesan_balasan .= "Status = " . $status . "\n";    
+                
                 $reply['messages'][0]['text'] = $pesan_balasan;    
             } else {
-                $jumlah_pengaduan = $this->m_welcome->cek_jumlah_pengaduan($userId);
+                $jumlah_pengaduan = $this->m_api->cek_jumlah_pengaduan_aktif($userId);
                 if ($jumlah_pengaduan == 0) {
                     $reply['messages'][0]['text'] = "Anda belum mengajukan aduan";
                 } else {
-                    $pengaduan_terakhir = $this->m_welcome->ambil_pengaduan_terakhir($userId);
-                    $this->m_welcome->tambah_chat_masuk($pengaduan_terakhir, $pesan_datang_raw, date('Y-m-d H:i:s'));
+                    $pengaduan_terakhir = $this->m_api->ambil_pengaduan_terakhir($userId);
+                    if($message['type']=='text') {
+                        $this->m_api->tambah_chat_masuk($pengaduan_terakhir, $message['type'], $pesan_datang_raw, date('Y-m-d H:i:s'));
+                    } else {
+                        $this->m_api->tambah_chat_masuk($pengaduan_terakhir, $message['type'], $messageid, date('Y-m-d H:i:s'));
+                    }
                 }
             }
         } else{
