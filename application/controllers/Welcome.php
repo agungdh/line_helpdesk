@@ -51,7 +51,7 @@ Class Welcome extends CI_Controller{
         $reply['replyToken'] = $replyToken;
         $reply['messages'][0]['type'] = 'text';
 
-        if($message['type']=='text') {
+        if($message['type']=='text' || $message['type']=='image') {
             if (strpos($pesan_datang, 'pengaduan') !== false) { 
                 $jumlah_pengaduan = $this->m_welcome->cek_jumlah_pengaduan($userId);
                 if ($jumlah_pengaduan != 0) {
