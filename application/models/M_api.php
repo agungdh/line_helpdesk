@@ -50,8 +50,6 @@ class M_api extends CI_Model{
 		return $insert_id;
 	}
 
-// 
-
 	function ambil_pengaduan($id_line) {
 		$sql = "SELECT *
 				FROM pengaduan
