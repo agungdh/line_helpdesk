@@ -23,9 +23,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 | a PHP script and you can easily do that on your own.
 |
 */
-$config['base_url'] = 'https://apps.agungdh.com/line_helpdesk/';
-// $config['base_url'] = 'http://192.168.7.2/ci_captcha/';
-// $config['base_url'] = 'http://192.168.43.24/pum_elearning/';
+// $config['base_url'] = 'https://apps.agungdh.com/line_helpdesk/';
+$config['base_url'] = 'http://localhost/api_line_helpdesk/';
 
 /*
 |--------------------------------------------------------------------------

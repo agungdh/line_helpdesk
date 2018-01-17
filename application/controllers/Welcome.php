@@ -9,11 +9,12 @@ class Welcome extends CI_Controller {
 	}
 
 	public function index() {
-		$hutang_kasbon = $this->m_welcome->ambil_data_hutang_kasbon();
-		$pembayaran = $this->m_welcome->ambil_data_pembayaran();
-		$catatan = $this->m_welcome->ambil_data_catatan();
+		$data['isi'] = "template/halaman_utama";
+		$data['data']['pengaduan_selesai'] = $this->m_welcome->ambil_jumlah_pengaduan_selesai();
+		$data['data']['pengaduan_belum'] = $this->m_welcome->ambil_jumlah_pengaduan_belum();
+		$data['data']['pengaduan_total'] = $this->m_welcome->ambil_jumlah_pengaduan();
 
-		$this->session->login != true ? $this->load->view("template/halaman_login") : $this->load->view('template/template',array("isi" => "template/halaman_utama", "data" => array("hutang_kasbon" => $hutang_kasbon,"pembayaran" => $pembayaran,"catatan" => $catatan)));;
+		$this->session->login != true ? $this->load->view("template/halaman_login") : $this->load->view('template/template',$data);;
 	}
 
 }

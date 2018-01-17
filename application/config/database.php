@@ -75,7 +75,7 @@ $query_builder = TRUE;
 
 $db['default'] = array(
 	'dsn'	=> '',
-	'hostname' => 'localhost',
+	'hostname' => 'agungdh.com',
 	'username' => 'agungdhc',
 	'password' => 'tsandjie123',
 	'database' => 'agungdhc_helpdesk',

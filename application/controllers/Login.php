@@ -9,7 +9,7 @@ class Login extends CI_Controller {
 
 	function index() {
 		$username = $this->input->post('username');
-		$password = $this->input->post('password');
+		$password = hash("sha512", $this->input->post('password'));
 
 		$total = $this->m_login->cek_user_password($username, $password);
 		

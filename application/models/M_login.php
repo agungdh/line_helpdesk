@@ -5,14 +5,20 @@ class M_login extends CI_Model{
 	}
 
 	function cek_user_password($username, $password){
-		$sql = "SELECT f_cek_login(?,?) total";
+		$sql = "SELECT count(*) total
+				FROM user
+				WHERE username = ?
+				AND password = ?";
 		$query = $this->db->query($sql, array($username, $password));
 		$row = $query->row();
 		return $row->total;
 	}
 
 	function ambil_data_user($username, $password){
-		$sql = "CALL sp_ambil_data_user(?,?)";
+		$sql = "SELECT *
+				FROM user
+				WHERE username = ?
+				AND password = ?";
 		$query = $this->db->query($sql, array($username, $password));
 		$row = $query->row();
 		$data_user = array('id' => $row->id,
