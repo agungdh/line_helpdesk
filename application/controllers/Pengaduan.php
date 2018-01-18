@@ -16,4 +16,9 @@ class Pengaduan extends CI_Controller {
 		$this->load->view("template/template", $data);
 	}
 
+	function lihat($id){
+		$data['isi'] = "pengaduan/lihat";
+		$this->load->view("template/template", $data);	
+	}
+
 }

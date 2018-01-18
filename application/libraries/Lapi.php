@@ -14,6 +14,11 @@ class Lapi{
         return $client->profil($userId)->displayName;
     }
  
+    function ambil_picture_url($userId) {
+        $client     = new LINEBotTiny($this->channelAccessToken, $this->channelSecret);
+        return $client->profil($userId)->pictureUrl;
+    }
+ 
 }
 
 if (!function_exists('hash_equals')) 

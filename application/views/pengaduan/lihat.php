@@ -1,54 +1,77 @@
-<script type="text/javascript" language="javascript" >
-  $(document).ready(function() {
-        var dataTable = $('#lookup').DataTable( {
-          "responsive": true,
-          "processing": true,
-          "serverSide": true,
-          "searching": false,
-          "ajax":{
-            url :"<?php echo base_url("kasbon/ajaxlihat?id=".$data['id']) ?>", // json datasource
-            type: "post",  // method  , by default get
-            /*
-            error: function(){  // error handling
-              $(".lookup-error").html("");
-              $("#lookup").append('');
-              $("#lookup").append('<tbody class="employee-grid-error"><tr><th colspan="3">No data found in the server</th></tr></tbody>');
-              $("#lookup_processing").css("display","none");
-            }
-            */
-            
-          }
-        } );
-      } );
-</script>
+<style type="text/css">
+   /* Chat containers */
+.container {
+    border: 2px solid #dedede;
+    background-color: #f1f1f1;
+    border-radius: 5px;
+    padding: 10px;
+    margin: 10px 0;
+}
 
-<div class="box box-primary">
-  <div class="box-header with-border">
-    <h4><strong><font color=blue>DATA DETAIL PEMBAYARAN</font></strong></h4>
-  </div><!-- /.box-header -->
+/* Darker chat container */
+.darker {
+    border-color: #ccc;
+    background-color: #ddd;
+}
 
-  <div class="box-header with-border">
-    <h4><strong>Sisa hutang : <?php echo $data['sisa_hutang'] <= 0 ? "Lunas" : $this->rupiah->convert_ke_rupiah($data['sisa_hutang']); ?></font></strong></h4>
-  </div><!-- /.box-header -->
+/* Clear floats */
+.container::after {
+    content: "";
+    clear: both;
+    display: table;
+}
 
-    <div class="box-body">
+/* Style images */
+.container img.dp {
+    float: left;
+    max-width: 60px;
+    width: 100%;
+    margin-right: 20px;
+    border-radius: 50%;
+}
 
-    <table id="lookup" class="table table-striped table-bordered table-hover" cellspacing="0" width="100%">
-      <thead>
-        <tr>
-                    <th>TANGGAL</th>
-                    <th>JUMLAH</th>
-        </tr>
-      </thead>
+/* Style the right image */
+.container img.right {
+    float: right;
+    margin-left: 20px;
+    margin-right:0;
+}
 
-      <tbody>
-      </tbody>
-      
-    </table>
-    
-    <div class="box-footer">
-      <a href="<?php echo base_url('kasbon'); ?>" class="btn btn-info">Kembali</a>
-    </div>
-  
-  </div><!-- /.boxbody -->
-</div><!-- /.box -->
+/* Style time text */
+.time-right {
+    float: right;
+    color: #aaa;
+}
+
+/* Style time text */
+.time-left {
+    float: left;
+    color: #999;
+} 
+</style>
+
+<form>
+  <input type="text" name="chat">
+  <br>
+  <input type="submit" value="kirim">
+</form>
+
+<div class="container">
+  <img class="dp" src="<?php echo $this->lapi->ambil_picture_url('U44189559eb5eb95389b3e876cec00d39'); ?>" alt="Avatar">
+  <span class="time-left">Ade</span>
+  <br>
+  <span class="time-left">10-01-2018 23:04:02</span>
+  <br>
+  Hello. How are you today?
+  <br>
+</div>
+
+<div class="container">
+  <img class="dp" src="<?php echo $this->lapi->ambil_picture_url('U03d5b88ff78ad8bdd6df0b122a0bde6a'); ?>" alt="Avatar">
+  <span class="time-left">Ade</span>
+  <br>
+  <span class="time-left">10-01-2018 23:04:02</span>
+  <br>
+  <img src="<?php echo $this->lapi->ambil_picture_url('Ua9c75272c83b722557fb63c68a3997fc'); ?>" alt="Avatar">
+  <br>
+</div>
