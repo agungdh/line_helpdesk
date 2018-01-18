@@ -6,6 +6,10 @@ class Pustaka {
 		return date("d-m-Y", strtotime($tanggal));
 	}
 
+	function tanggal_jam_indo($tanggal) {
+		return date("d-m-Y H:i:s", strtotime($tanggal));
+	}
+
 	function dec_to_int($int) {
 		return round($int,0);
 	}

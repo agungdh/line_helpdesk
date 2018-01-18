@@ -54,24 +54,36 @@
   <input type="hidden" name="id_pengaduan" value="<?php echo $id_pengaduan; ?>">
   <input type="text" name="chat" class="form-control" placeholder="Isi Chat">
   <input type="submit" value="kirim" class="btn btn-success">
+  <a class="btn btn-success" href="<?php echo base_url('pengaduan/lihat/'.$id_pengaduan) ?>">Refresh</a>
 </form>
 
+<?php
+foreach ($chat as $item) {
+?>
 <div class="container">
-  <img class="dp" src="<?php echo $this->lapi->ambil_picture_url('U03d5b88ff78ad8bdd6df0b122a0bde6a'); ?>" alt="Avatar">
-  <span class="time-left">Ade</span>
+  <?php
+  if ($item[5] == "local") {
+    $src = base_url("assets/dist/img/avatar1.png");
+  } elseif ($item[5] == "line") {
+    $src = $this->lapi->ambil_picture_url($item[4]);
+  }
+  ?>
+  <?php
+  if ($item[2] == "text") {
+    $isi = $item[3];
+  } elseif ($item[2] == "image") {
+    $gambar = $this->lapi->ambil_picture_url($item[3]);
+    $isi = '<img src="'.$gambar.'" alt="Avatar">';
+  }
+  ?>
+  <img class="dp" src="<?php echo $src; ?>" alt="Avatar">
+  <span class="time-left"><?php echo $item[1]; ?></span>
   <br>
-  <span class="time-left">10-01-2018 23:04:02</span>
+  <span class="time-left"><?php echo $this->pustaka->tanggal_jam_indo($item[0]); ?></span>
   <br>
-  Hello. How are you today?
+  <?php echo $isi; ?>
   <br>
 </div>
-
-<div class="container">
-  <img class="dp" src="<?php echo $this->lapi->ambil_picture_url('U03d5b88ff78ad8bdd6df0b122a0bde6a'); ?>" alt="Avatar">
-  <span class="time-left">Ade</span>
-  <br>
-  <span class="time-left">10-01-2018 23:04:02</span>
-  <br>
-  <img src="<?php echo $this->lapi->ambil_picture_url('U03d5b88ff78ad8bdd6df0b122a0bde6a'); ?>" alt="Avatar">
-  <br>
-</div>
+<?php
+}
+?>

@@ -1,5 +1,4 @@
 <?php 
- 
 class Lapi{
     var $channelAccessToken; 
     var $channelSecret;
@@ -18,6 +17,49 @@ class Lapi{
         $client     = new LINEBotTiny($this->channelAccessToken, $this->channelSecret);
         return $client->profil($userId)->pictureUrl;
     }
+
+    function ambil_chat($chat_masuk, $chat_keluar) {
+        $client     = new LINEBotTiny($this->channelAccessToken, $this->channelSecret);
+        $pesan = array();
+        foreach ($chat_masuk as $item) {
+            $profil = $client->profil($item->id_line)->displayName;
+            $id_user = $item->id_line;
+            $tipe_user = "line";
+            $pesan[] = array(new DateTime($item->waktu), $profil, $item->tipe, $item->isi, $tipe_user, $id_user);
+         }
+         foreach ($chat_keluar as $item) {
+            $id_user = $id;
+            $tipe_user = "local";
+            $pesan[] = array(new DateTime($item->waktu), $item->nama, $item->tipe, $item->isi, $tipe_user, $id_user);
+         } 
+        asort($pesan);
+        
+        $chat['waktu'] = array();
+        $chat['nama'] = array();
+        $chat['tipe'] = array();
+        $chat['isi'] = array();
+        $chat['id_user'] = array();
+        $chat['tipe_user'] = array();
+        
+        foreach ($pesan as $item) {
+            $waktu = $item[0]->format('Y-m-d H:i:s');
+            $nama = $item[1];
+            $tipe = $item[2];
+            $isi = $item[3];
+            $tipe_user = $item[4];
+            $id_user = $item[5];
+            // echo $waktu . " || " . $nama . " || " . $chat . "<br>";
+            $chat['waktu'][] = $waktu;
+            $chat['nama'][] = $nama;
+            $chat['tipe'][] = $tipe;
+            $chat['isi'][] = $isi;
+            $chat['id_user'][] = $id_user;
+            $chat['tipe_user'][] = $tipe_user;
+        }
+
+        return $chat;
+    }
+
  
 }
 
