@@ -4,6 +4,13 @@ class M_pengaduan extends CI_Model{
 		parent::__construct();		
 	}
 
+	function ambil_pengaduan($id_pengaduan) {
+		$sql = "SELECT *, date(waktu) tanggal
+				FROM pengaduan
+				WHERE id = ?";
+		return $this->db->query($sql, array($id_pengaduan))->row();
+	}
+
 	function ambil_pengaduan_selesai() {
 		$sql = "SELECT *, date(waktu) tanggal
 				FROM pengaduan

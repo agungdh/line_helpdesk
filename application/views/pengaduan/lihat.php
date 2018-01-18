@@ -50,11 +50,12 @@
 } 
 </style>
 
+<a class="btn btn-success" href="<?php echo base_url('pengaduan'); ?>">Kembali</a>
+<a class="btn btn-success" href="<?php echo base_url('pengaduan/lihat/'.$id_pengaduan); ?>">Refresh</a>
 <form action="<?php echo base_url('pengaduan/chat'); ?>" method="post">
   <input type="hidden" name="id_pengaduan" value="<?php echo $id_pengaduan; ?>">
   <input type="text" name="chat" class="form-control" placeholder="Isi Chat">
   <input type="submit" value="kirim" class="btn btn-success">
-  <a class="btn btn-success" href="<?php echo base_url('pengaduan/lihat/'.$id_pengaduan) ?>">Refresh</a>
 </form>
 
 <?php
@@ -72,8 +73,8 @@ foreach ($chat as $item) {
   if ($item[2] == "text") {
     $isi = $item[3];
   } elseif ($item[2] == "image") {
-    $gambar = $this->lapi->ambil_picture_url($item[3]);
-    $isi = '<img src="'.$gambar.'" alt="Avatar">';
+    $konten = $this->lapi->ambil_gambar($item[3]);        
+    $isi = '<img src="data:image;base64,'.base64_encode( $konten ).'"/>';
   }
   ?>
   <img class="dp" src="<?php echo $src; ?>" alt="Avatar">
@@ -87,3 +88,12 @@ foreach ($chat as $item) {
 <?php
 }
 ?>
+<div class="container">
+  <img class="dp" src="<?php echo $this->lapi->ambil_picture_url($pengaduan->id_line); ?>" alt="Avatar">
+  <span class="time-left"><?php echo $this->lapi->ambil_display_name($pengaduan->id_line); ?></span>
+  <br>
+  <span class="time-left"><?php echo $this->pustaka->tanggal_jam_indo($pengaduan->waktu); ?></span>
+  <br>
+  <?php echo $pengaduan->pengaduan; ?>
+  <br>
+</div>
