@@ -54,6 +54,7 @@
 <a class="btn btn-success" href="<?php echo base_url('pengaduan/lihat/'.$id_pengaduan); ?>">Refresh</a>
 <form action="<?php echo base_url('pengaduan/chat'); ?>" method="post">
   <input type="hidden" name="id_pengaduan" value="<?php echo $id_pengaduan; ?>">
+  <input type="hidden" name="id_line" value="<?php echo $pengaduan->id_line; ?>">
   <input type="text" name="chat" class="form-control" placeholder="Isi Chat">
   <input type="submit" value="kirim" class="btn btn-success">
 </form>
@@ -61,12 +62,13 @@
 <?php
 foreach ($chat as $item) {
 ?>
-<div class="container">
   <?php
   if ($item[5] == "local") {
     $src = base_url("assets/dist/img/avatar1.png");
+    $class = "container darker";
   } elseif ($item[5] == "line") {
     $src = $this->lapi->ambil_picture_url($item[4]);
+    $class = "container";
   }
   ?>
   <?php
@@ -77,6 +79,7 @@ foreach ($chat as $item) {
     $isi = '<img src="data:image;base64,'.base64_encode( $konten ).'"/>';
   }
   ?>
+<div class="<?php echo $class; ?>">
   <img class="dp" src="<?php echo $src; ?>" alt="Avatar">
   <span class="time-left"><?php echo $item[1]; ?></span>
   <br>

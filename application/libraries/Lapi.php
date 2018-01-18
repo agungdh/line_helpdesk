@@ -8,6 +8,16 @@ class Lapi{
         $this->channelSecret = '2cf7003f0de82c2c18acc9389571da39';
     }
 
+    function push($id_line, $text) {
+        $client     = new LINEBotTiny($this->channelAccessToken, $this->channelSecret);
+        
+        $push['to'] = $id_line;
+        $push['messages'][0]['type'] = 'text';
+        $push['messages'][0]['text'] = $text;
+        $client->pushMessage($push);
+    }
+
+
     function ambil_gambar($gambar) {
         $alamat = 'https://api.line.me/v2/bot/message/'.$gambar.'/content';
         $konten = exec_get($alamat, $this->channelAccessToken);    
@@ -34,7 +44,7 @@ class Lapi{
             $pesan[] = array(new DateTime($item->waktu), $profil, $item->tipe, $item->isi, $tipe_user, $id_user);
          }
          foreach ($chat_keluar as $item) {
-            $id_user = $id;
+            $id_user = $item->id;
             $tipe_user = "local";
             $pesan[] = array(new DateTime($item->waktu), $item->nama, $item->tipe, $item->isi, $tipe_user, $id_user);
          } 

@@ -24,5 +24,15 @@ class M_pengaduan extends CI_Model{
 				WHERE status != 2";
 		return $this->db->query($sql, array())->result();
 	}
+
+	function chat_keluar($id_user, $id_pengaduan, $tipe, $isi, $waktu) {
+		$sql = "INSERT INTO chat_keluar
+				SET id_user = ?,
+				id_pengaduan = ?,
+				tipe = ?,
+				isi = ?,
+				waktu = ?";
+		$this->db->query($sql, array($id_user, $id_pengaduan, $tipe, $isi, $waktu));	
+	}
 }
 ?>

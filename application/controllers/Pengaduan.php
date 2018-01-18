@@ -34,4 +34,13 @@ class Pengaduan extends CI_Controller {
 		$this->load->view("template/template", $data);	
 	}
 
+	function chat() {
+		$chat = $this->input->post('chat');
+		$id_pengaduan = $this->input->post('id_pengaduan');
+		$id_line = $this->input->post('id_line');
+		$this->lapi->push($id_line, $chat);
+		$this->m_pengaduan->chat_keluar($this->session->id, $id_pengaduan, "text", $chat, date('Y-m-d H:i:s'));
+		redirect(base_url('pengaduan/lihat/'.$id_pengaduan));
+	}
+
 }
