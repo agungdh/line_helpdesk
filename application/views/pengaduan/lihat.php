@@ -50,14 +50,14 @@
 } 
 </style>
 
-<form>
-  <input type="text" name="chat">
-  <br>
-  <input type="submit" value="kirim">
+<form action="<?php echo base_url('pengaduan/chat'); ?>" method="post">
+  <input type="hidden" name="id_pengaduan" value="<?php echo $id_pengaduan; ?>">
+  <input type="text" name="chat" class="form-control" placeholder="Isi Chat">
+  <input type="submit" value="kirim" class="btn btn-success">
 </form>
 
 <div class="container">
-  <img class="dp" src="<?php echo $this->lapi->ambil_picture_url('U44189559eb5eb95389b3e876cec00d39'); ?>" alt="Avatar">
+  <img class="dp" src="<?php echo $this->lapi->ambil_picture_url('U03d5b88ff78ad8bdd6df0b122a0bde6a'); ?>" alt="Avatar">
   <span class="time-left">Ade</span>
   <br>
   <span class="time-left">10-01-2018 23:04:02</span>
@@ -72,6 +72,6 @@
   <br>
   <span class="time-left">10-01-2018 23:04:02</span>
   <br>
-  <img src="<?php echo $this->lapi->ambil_picture_url('Ua9c75272c83b722557fb63c68a3997fc'); ?>" alt="Avatar">
+  <img src="<?php echo $this->lapi->ambil_picture_url('U03d5b88ff78ad8bdd6df0b122a0bde6a'); ?>" alt="Avatar">
   <br>
 </div>
