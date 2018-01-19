@@ -8,6 +8,37 @@ class Lapi{
         $this->channelSecret = '2cf7003f0de82c2c18acc9389571da39';
     }
 
+    function cek_pesan_baru($chat_masuk, $chat_keluar) {
+        $pesan = array();
+        foreach ($chat_masuk as $item) {
+            $tipe_user = "line";
+            $pesan[] = array(new DateTime($item->waktu), $tipe_user);
+         }
+         foreach ($chat_keluar as $item) {
+            $tipe_user = "local";
+            $pesan[] = array(new DateTime($item->waktu), $tipe_user);
+         } 
+        asort($pesan);
+        rsort($pesan);
+
+        $chat_sementara['waktu'] = array();
+        $chat_sementara['tipe_user'] = array();
+        
+        foreach ($pesan as $item) {
+            $chat_sementara['waktu'][] = $item[0]->format('Y-m-d H:i:s');
+            $chat_sementara['tipe_user'][] = $item[1];
+        }
+
+        $chat = array();
+        $i = 0;
+        foreach ($chat_sementara['waktu'] as $item) {
+            $chat[] = array($chat_sementara['waktu'][$i], $chat_sementara['tipe_user'][$i]);
+            $i++;
+        }
+
+        return $chat;
+    }
+
     function push($id_line, $text) {
         $client     = new LINEBotTiny($this->channelAccessToken, $this->channelSecret);
         
@@ -16,7 +47,6 @@ class Lapi{
         $push['messages'][0]['text'] = $text;
         $client->pushMessage($push);
     }
-
 
     function ambil_gambar($gambar) {
         $alamat = 'https://api.line.me/v2/bot/message/'.$gambar.'/content';
