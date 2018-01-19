@@ -68,14 +68,14 @@ if ($pengaduan->status == 0) {
   $status = "Error !!!";
 }
 ?>
-<br>
-Status : <?php echo $status; ?>
-<br>
 <?php 
 if ($pengaduan->status != 2) {
 ?>
 
 <a class="btn btn-success" href="<?php echo base_url('pengaduan/lihat/'.$id_pengaduan); ?>">Refresh</a>
+<br>
+Status : <?php echo $status; ?>
+<br>
 Ubah Status => <a class="btn btn-success" href="<?php echo base_url('pengaduan/ubah_status/'.$id_pengaduan.'/'.$next_status_number); ?>"><?php echo $next_status; ?></a>
 <form action="<?php echo base_url('pengaduan/chat'); ?>" method="post">
   <input type="hidden" name="id_pengaduan" value="<?php echo $id_pengaduan; ?>">
