@@ -11,10 +11,6 @@ class Pengaduan extends CI_Controller {
 	}
 
 	function index() {
-		$chat_masuk = $this->m_api->ambil_chat_masuk(29);
-		$chat_keluar = $this->m_api->ambil_chat_keluar(29);
-		$chat_sementara = $this->lapi->cek_pesan_baru($chat_masuk, $chat_keluar);
-		var_dump($chat_sementara);
 		$data['isi'] = "pengaduan/index";
 		$data['data']['pengaduan_selesai'] = $this->m_pengaduan->ambil_pengaduan_selesai();
 		$data['data']['pengaduan_belum'] = $this->m_pengaduan->ambil_pengaduan_belum();

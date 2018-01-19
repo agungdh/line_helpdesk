@@ -36,6 +36,16 @@
       <tbody>
         <?php
         foreach ($data['pengaduan_belum'] as $item) {
+          $chat_masuk = $this->m_api->ambil_chat_masuk($item->id);
+          $chat_keluar = $this->m_api->ambil_chat_keluar($item->id);
+          $chat_sementara = $this->lapi->cek_pesan_baru($chat_masuk, $chat_keluar);
+
+          if ($chat_sementara == null || $chat_sementara[0][1] == "line") {
+            $status_chat = "NEW";
+          } else {
+            $status_chat = null;
+          }
+
           $nama = $this->lapi->ambil_display_name($item->id_line);
           $tanggal = $this->pustaka->tanggal_indo($item->tanggal);
           $status = "Error !!!";
@@ -54,7 +64,7 @@
           <tr>
             <td><?php echo $tanggal; ?></td>
             <td><?php echo $nama; ?></td>
-            <td><?php echo $item->pengaduan; ?></td>
+            <td><?php echo $item->pengaduan; ?> <a style="background-color:red;"><?php echo $status_chat; ?></a></td>
             <td><?php echo $status; ?></td>
             <td><a class="btn btn-primary" href="<?php echo base_url('pengaduan/lihat/'.$item->id); ?>">Lihat</a></td>
           </tr>
