@@ -15,6 +15,7 @@
   });
 </script>
 
+<a class="btn btn-success" href="<?php echo base_url('pengaduan'); ?>">Refresh</a>
 <div class="box box-primary">
   <div class="box-header with-border">
     <h4><strong><font color=blue>DATA PENGADUAN BELUM SELESAI</font></strong></h4>

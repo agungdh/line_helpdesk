@@ -51,13 +51,42 @@
 </style>
 
 <a class="btn btn-success" href="<?php echo base_url('pengaduan'); ?>">Kembali</a>
+<?php
+if ($pengaduan->status == 0) {
+  $status = "Belum Diproses";
+  $next_status = "Sedang Diproses";
+  $next_status_number = 1;
+} elseif ($pengaduan->status == 1) {
+  $status = "Sedang Diproses";
+  $next_status = "Selesai";
+  $next_status_number = 2;
+} elseif ($pengaduan->status == 2) {
+  $status = "Selesai";
+  $next_status = null;
+  $next_status_number = null;
+} else {
+  $status = "Error !!!";
+}
+?>
+<br>
+Status : <?php echo $status; ?>
+<br>
+<?php 
+if ($pengaduan->status != 2) {
+?>
+
 <a class="btn btn-success" href="<?php echo base_url('pengaduan/lihat/'.$id_pengaduan); ?>">Refresh</a>
+Ubah Status => <a class="btn btn-success" href="<?php echo base_url('pengaduan/ubah_status/'.$id_pengaduan.'/'.$next_status_number); ?>"><?php echo $next_status; ?></a>
 <form action="<?php echo base_url('pengaduan/chat'); ?>" method="post">
   <input type="hidden" name="id_pengaduan" value="<?php echo $id_pengaduan; ?>">
   <input type="hidden" name="id_line" value="<?php echo $pengaduan->id_line; ?>">
   <input type="text" name="chat" class="form-control" placeholder="Isi Chat">
   <input type="submit" value="kirim" class="btn btn-success">
 </form>
+
+<?php
+}
+?>
 
 <?php
 foreach ($chat as $item) {

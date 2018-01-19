@@ -4,6 +4,13 @@ class M_pengaduan extends CI_Model{
 		parent::__construct();		
 	}
 
+	function ubah_status($id_pengaduan, $status) {
+		$sql = "UPDATE pengaduan
+				SET status = ?
+				WHERE id = ?";
+		$this->db->query($sql, array($status, $id_pengaduan));
+	}
+
 	function ambil_pengaduan($id_pengaduan) {
 		$sql = "SELECT *, date(waktu) tanggal
 				FROM pengaduan

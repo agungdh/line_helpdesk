@@ -43,4 +43,8 @@ class Pengaduan extends CI_Controller {
 		redirect(base_url('pengaduan/lihat/'.$id_pengaduan));
 	}
 
+	function ubah_status($id_pengaduan, $status) {
+		$this->m_pengaduan->ubah_status($id_pengaduan, $status);
+		redirect(base_url('pengaduan/lihat/'.$id_pengaduan));
+	}
 }
