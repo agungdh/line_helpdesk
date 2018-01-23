@@ -50,17 +50,17 @@
 } 
 </style>
 
-<a class="btn btn-success" href="<?php echo base_url('pengaduan'); ?>">Kembali</a>
+<a class="btn btn-success" href="<?php echo base_url('pelayanan'); ?>">Kembali</a>
 <?php
-if ($pengaduan->status == 0) {
+if ($pelayanan->status == 0) {
   $status = "Belum Diproses";
   $next_status = "Sedang Diproses";
   $next_status_number = 1;
-} elseif ($pengaduan->status == 1) {
+} elseif ($pelayanan->status == 1) {
   $status = "Sedang Diproses";
   $next_status = "Selesai";
   $next_status_number = 2;
-} elseif ($pengaduan->status == 2) {
+} elseif ($pelayanan->status == 2) {
   $status = "Selesai";
   $next_status = null;
   $next_status_number = null;
@@ -69,17 +69,17 @@ if ($pengaduan->status == 0) {
 }
 ?>
 <?php 
-if ($pengaduan->status != 2) {
+if ($pelayanan->status != 2) {
 ?>
 
-<a class="btn btn-success" href="<?php echo base_url('pengaduan/lihat/'.$id_pengaduan); ?>">Refresh</a>
+<a class="btn btn-success" href="<?php echo base_url('pelayanan/lihat/'.$id_pelayanan); ?>">Refresh</a>
 <br>
 Status : <?php echo $status; ?>
 <br>
-Ubah Status => <a class="btn btn-success" href="<?php echo base_url('pengaduan/ubah_status/'.$id_pengaduan.'/'.$next_status_number); ?>"><?php echo $next_status; ?></a>
-<form action="<?php echo base_url('pengaduan/chat'); ?>" method="post">
-  <input type="hidden" name="id_pengaduan" value="<?php echo $id_pengaduan; ?>">
-  <input type="hidden" name="id_line" value="<?php echo $pengaduan->id_line; ?>">
+Ubah Status => <a class="btn btn-success" href="<?php echo base_url('pelayanan/ubah_status/'.$id_pelayanan.'/'.$next_status_number); ?>"><?php echo $next_status; ?></a>
+<form action="<?php echo base_url('pelayanan/chat'); ?>" method="post">
+  <input type="hidden" name="id_pelayanan" value="<?php echo $id_pelayanan; ?>">
+  <input type="hidden" name="id_line" value="<?php echo $pelayanan->id_line; ?>">
   <input type="text" name="chat" class="form-control" placeholder="Isi Chat">
   <input type="submit" value="kirim" class="btn btn-success">
 </form>
@@ -121,11 +121,11 @@ foreach ($chat as $item) {
 }
 ?>
 <div class="container">
-  <img class="dp" src="<?php echo $this->lapi->ambil_picture_url($pengaduan->id_line); ?>" alt="Avatar">
-  <span class="time-left"><?php echo $this->lapi->ambil_display_name($pengaduan->id_line); ?></span>
+  <img class="dp" src="<?php echo $this->lapi->ambil_picture_url($pelayanan->id_line); ?>" alt="Avatar">
+  <span class="time-left"><?php echo $this->lapi->ambil_display_name($pelayanan->id_line); ?></span>
   <br>
-  <span class="time-left"><?php echo $this->pustaka->tanggal_jam_indo($pengaduan->waktu); ?></span>
+  <span class="time-left"><?php echo $this->pustaka->tanggal_jam_indo($pelayanan->waktu); ?></span>
   <br>
-  <?php echo $pengaduan->pengaduan; ?>
+  <?php echo $pelayanan->pelayanan; ?>
   <br>
 </div>

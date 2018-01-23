@@ -1,0 +1,45 @@
+<?php
+class M_pelayanan extends CI_Model{	
+	function __construct(){
+		parent::__construct();		
+	}
+
+	function ubah_status($id_pelayanan, $status) {
+		$sql = "UPDATE pelayanan
+				SET status = ?
+				WHERE id = ?";
+		$this->db->query($sql, array($status, $id_pelayanan));
+	}
+
+	function ambil_pelayanan($id_pelayanan) {
+		$sql = "SELECT *, date(waktu) tanggal
+				FROM pelayanan
+				WHERE id = ?";
+		return $this->db->query($sql, array($id_pelayanan))->row();
+	}
+
+	function ambil_pelayanan_selesai() {
+		$sql = "SELECT *, date(waktu) tanggal
+				FROM pelayanan
+				WHERE status = 2";
+		return $this->db->query($sql, array())->result();
+	}
+
+	function ambil_pelayanan_belum() {
+		$sql = "SELECT *, date(waktu) tanggal
+				FROM pelayanan
+				WHERE status != 2";
+		return $this->db->query($sql, array())->result();
+	}
+
+	function chat_keluar($id_user, $id_pelayanan, $tipe, $isi, $waktu) {
+		$sql = "INSERT INTO chat_keluar
+				SET id_user = ?,
+				id_pelayanan = ?,
+				tipe = ?,
+				isi = ?,
+				waktu = ?";
+		$this->db->query($sql, array($id_user, $id_pelayanan, $tipe, $isi, $waktu));	
+	}
+}
+?>

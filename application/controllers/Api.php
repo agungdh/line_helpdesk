@@ -52,24 +52,24 @@ Class Api extends CI_Controller{
         $reply['messages'][0]['type'] = 'text';
 
         if($message['type']=='text' || $message['type']=='image') {
-            if (strpos($pesan_datang, 'pengaduan') !== false) { 
-                $jumlah_pengaduan = $this->m_api->cek_jumlah_pengaduan_aktif($userId);
-                if ($jumlah_pengaduan != 0) {
-                    $reply['messages'][0]['text'] = "Anda masih mempunyai pengaduan yang belum terselesaikan, anda dapat mengirim pengaduan baru jika pengeduan sebelumnya telah terselesaikan";
+            if (strpos($pesan_datang, 'pelayanan') !== false) { 
+                $jumlah_pelayanan = $this->m_api->cek_jumlah_pelayanan_aktif($userId);
+                if ($jumlah_pelayanan != 0) {
+                    $reply['messages'][0]['text'] = "Anda masih mempunyai pelayanan yang belum terselesaikan, anda dapat mengirim pelayanan baru jika pengeduan sebelumnya telah terselesaikan";
                 } else {
-                    $pesan_pengaduan = explode(' ', $pesan_datang_raw);
-                    unset($pesan_pengaduan[0]);
-                    array_values($pesan_pengaduan);
-                    $reply_pengaduan =  implode(" ", $pesan_pengaduan);
+                    $pesan_pelayanan = explode(' ', $pesan_datang_raw);
+                    unset($pesan_pelayanan[0]);
+                    array_values($pesan_pelayanan);
+                    $reply_pelayanan =  implode(" ", $pesan_pelayanan);
 
-                    $pengaduan = $this->m_api->tambah_pengaduan($userId, $reply_pengaduan, date('Y-m-d H:i:s'));
-                    if ($pengaduan != null) {
-                        $reply['messages'][0]['text'] = "Pengaduan anda telah kami terima dan sedang menunggu antrian untuk di proses. ID pengaduan anda = " . $pengaduan;
+                    $pelayanan = $this->m_api->tambah_pelayanan($userId, $reply_pelayanan, date('Y-m-d H:i:s'));
+                    if ($pelayanan != null) {
+                        $reply['messages'][0]['text'] = "pelayanan anda telah kami terima dan sedang menunggu antrian untuk di proses. ID pelayanan anda = " . $pelayanan;
                     }
                 }  
             } elseif ($pesan_datang == 'status') {
-                $pesan_balasan = "Data Pengaduan\n";    
-                $item = $this->m_api->ambil_pengaduan($userId);
+                $pesan_balasan = "Data pelayanan\n";    
+                $item = $this->m_api->ambil_pelayanan($userId);
                 if ($item->status == 0) {
                     $status = "Belum Diproses";
                 } elseif ($item->status == 1) {
@@ -81,20 +81,20 @@ Class Api extends CI_Controller{
                 }
                 
                 $pesan_balasan .= $item->waktu . "\n";    
-                $pesan_balasan .= $item->pengaduan . "\n";    
+                $pesan_balasan .= $item->pelayanan . "\n";    
                 $pesan_balasan .= "Status = " . $status . "\n";    
                 
                 $reply['messages'][0]['text'] = $pesan_balasan;    
             } else {
-                $jumlah_pengaduan = $this->m_api->cek_jumlah_pengaduan_aktif($userId);
-                if ($jumlah_pengaduan == 0) {
+                $jumlah_pelayanan = $this->m_api->cek_jumlah_pelayanan_aktif($userId);
+                if ($jumlah_pelayanan == 0) {
                     $reply['messages'][0]['text'] = "Anda belum mengajukan aduan";
                 } else {
-                    $pengaduan_terakhir = $this->m_api->ambil_pengaduan_terakhir($userId);
+                    $pelayanan_terakhir = $this->m_api->ambil_pelayanan_terakhir($userId);
                     if($message['type']=='text') {
-                        $this->m_api->tambah_chat_masuk($pengaduan_terakhir, $message['type'], $pesan_datang_raw, date('Y-m-d H:i:s'));
+                        $this->m_api->tambah_chat_masuk($pelayanan_terakhir, $message['type'], $pesan_datang_raw, date('Y-m-d H:i:s'));
                     } else {
-                        $this->m_api->tambah_chat_masuk($pengaduan_terakhir, $message['type'], $messageid, date('Y-m-d H:i:s'));
+                        $this->m_api->tambah_chat_masuk($pelayanan_terakhir, $message['type'], $messageid, date('Y-m-d H:i:s'));
                     }
                 }
             }

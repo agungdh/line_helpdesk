@@ -4,14 +4,14 @@
           <!-- small box -->
           <div class="small-box bg-red">
             <div class="inner">
-              <h3><?php echo $data['pengaduan_belum']; ?></h3>
+              <h3><?php echo $data['pelayanan_belum']; ?></h3>
 
-              <p>Pengaduan Belum Terselesaikan</p>
+              <p>pelayanan Belum Terselesaikan</p>
             </div>
             <div class="icon">
               <i class="ion ion-social-usd"></i>
             </div>
-            <a href="<?php echo base_url('pengaduan') ?>" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+            <a href="<?php echo base_url('pelayanan') ?>" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
           </div>
         </div>
         <!-- ./col -->
@@ -19,14 +19,14 @@
           <!-- small box -->
           <div class="small-box bg-green">
             <div class="inner">
-              <h3><?php echo $data['pengaduan_selesai']; ?></h3>
+              <h3><?php echo $data['pelayanan_selesai']; ?></h3>
 
-              <p>Pengaduan Terselesaikan</p>
+              <p>pelayanan Terselesaikan</p>
             </div>
             <div class="icon">
               <i class="ion ion-ios-pie"></i>
             </div>
-            <a href="<?php echo base_url('pengaduan') ?>" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+            <a href="<?php echo base_url('pelayanan') ?>" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
           </div>
         </div>
         <!-- ./col -->
@@ -34,14 +34,14 @@
           <!-- small box -->
           <div class="small-box bg-yellow">
             <div class="inner">
-              <h3><?php echo $data['pengaduan_total']; ?></h3>
+              <h3><?php echo $data['pelayanan_total']; ?></h3>
 
-              <p>Jumlah Pengaduan</p>
+              <p>Jumlah pelayanan</p>
             </div>
             <div class="icon">
               <i class="ion ion-document-text"></i>
             </div>
-            <a href="<?php echo base_url('pengaduan') ?>" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+            <a href="<?php echo base_url('pelayanan') ?>" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
           </div>
         </div>
         <!-- ./col -->

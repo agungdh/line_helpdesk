@@ -10,9 +10,9 @@ class Welcome extends CI_Controller {
 
 	public function index() {
 		$data['isi'] = "template/halaman_utama";
-		$data['data']['pengaduan_selesai'] = $this->m_welcome->ambil_jumlah_pengaduan_selesai();
-		$data['data']['pengaduan_belum'] = $this->m_welcome->ambil_jumlah_pengaduan_belum();
-		$data['data']['pengaduan_total'] = $this->m_welcome->ambil_jumlah_pengaduan();
+		$data['data']['pelayanan_selesai'] = $this->m_welcome->ambil_jumlah_pelayanan_selesai();
+		$data['data']['pelayanan_belum'] = $this->m_welcome->ambil_jumlah_pelayanan_belum();
+		$data['data']['pelayanan_total'] = $this->m_welcome->ambil_jumlah_pelayanan();
 
 		$this->session->login != true ? $this->load->view("template/halaman_login") : $this->load->view('template/template',$data);;
 	}
