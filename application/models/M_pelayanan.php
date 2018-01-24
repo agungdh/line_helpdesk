@@ -18,18 +18,20 @@ class M_pelayanan extends CI_Model{
 		return $this->db->query($sql, array($id_pelayanan))->row();
 	}
 
-	function ambil_pelayanan_selesai() {
+	function ambil_pelayanan_selesai($id) {
 		$sql = "SELECT *, date(waktu) tanggal
 				FROM pelayanan
-				WHERE status = 2";
-		return $this->db->query($sql, array())->result();
+				WHERE status = 2
+				AND id = ?";
+		return $this->db->query($sql, array($id))->result();
 	}
 
-	function ambil_pelayanan_belum() {
+	function ambil_pelayanan_belum($id) {
 		$sql = "SELECT *, date(waktu) tanggal
 				FROM pelayanan
-				WHERE status != 2";
-		return $this->db->query($sql, array())->result();
+				WHERE status != 2
+				AND id = ?";
+		return $this->db->query($sql, array($id))->result();
 	}
 
 	function chat_keluar($id_user, $id_pelayanan, $tipe, $isi, $waktu) {

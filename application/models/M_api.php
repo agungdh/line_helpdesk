@@ -4,9 +4,25 @@ class M_api extends CI_Model{
 		parent::__construct();		
 	}
 
+	function ambil_data_layanan_id($id_layanan) {
+		$sql = "SELECT *
+				FROM layanan
+				WHERE id = ?";
+		return $this->db->query($sql, array($id_layanan))->row();
+	}
+
+	function ambil_data_layanan_user($id_user) {
+		$sql = "SELECT *
+				FROM pelayan
+				WHERE id_user = ?
+				ORDER BY id_layanan";
+		return $this->db->query($sql, array($id_user))->result();
+	}
+
 	function ambil_data_layanan() {
 		$sql = "SELECT *
-				FROM layanan";
+				FROM layanan
+				ORDER BY id";
 		return $this->db->query($sql, array())->result();
 	}
 

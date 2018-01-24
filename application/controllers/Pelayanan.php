@@ -10,10 +10,10 @@ class Pelayanan extends CI_Controller {
 		$this->load->library('pustaka');
 	}
 
-	function index() {
+	function nomor($id) {
 		$data['isi'] = "pelayanan/index";
-		$data['data']['pelayanan_selesai'] = $this->m_pelayanan->ambil_pelayanan_selesai();
-		$data['data']['pelayanan_belum'] = $this->m_pelayanan->ambil_pelayanan_belum();
+		$data['data']['pelayanan_selesai'] = $this->m_pelayanan->ambil_pelayanan_selesai($id);
+		$data['data']['pelayanan_belum'] = $this->m_pelayanan->ambil_pelayanan_belum($id);
 		$this->load->view("template/template", $data);
 	}
 
