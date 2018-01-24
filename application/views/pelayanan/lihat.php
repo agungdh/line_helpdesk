@@ -104,8 +104,10 @@ foreach ($chat as $item) {
   if ($item[2] == "text") {
     $isi = $item[3];
   } elseif ($item[2] == "image") {
-    $konten = $this->lapi->ambil_gambar($item[3]);        
-    $isi = '<img src="data:image;base64,'.base64_encode( $konten ).'"/>';
+    if (!file_exists('gambar/'.$item[6].'.jpg')) {
+      $konten = $this->lapi->ambil_gambar($item[6], $item[3]);        
+    }
+    $isi = '<img src="'.base_url('gambar/'.$item[6]).'.jpg"/>';
   }
   ?>
 <div class="<?php echo $class; ?>">

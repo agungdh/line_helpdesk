@@ -57,15 +57,12 @@ Class Api extends CI_Controller{
                 if ($jumlah_pelayanan != 0) {
                     $reply['messages'][0]['text'] = "Anda masih mempunyai pelayanan yang belum terselesaikan, anda dapat mengirim pelayanan baru jika pengeduan sebelumnya telah terselesaikan";
                 } else {
-                    $pesan_pelayanan = explode(' ', $pesan_datang_raw);
-                    unset($pesan_pelayanan[0]);
-                    array_values($pesan_pelayanan);
-                    $reply_pelayanan =  implode(" ", $pesan_pelayanan);
+                    $pesan_pelayanan = explode('#', $pesan_datang_raw);
 
-                    $pelayanan = $this->m_api->tambah_pelayanan($userId, $reply_pelayanan, date('Y-m-d H:i:s'));
+                    $pelayanan = $this->m_api->tambah_pelayanan($userId, $pesan_pelayanan[1], $pesan_pelayanan[2], date('Y-m-d H:i:s'));
                     if ($pelayanan != null) {
                         $reply['messages'][0]['text'] = "pelayanan anda telah kami terima dan sedang menunggu antrian untuk di proses. ID pelayanan anda = " . $pelayanan;
-                    }
+                    }                    
                 }  
             } elseif ($pesan_datang == 'status') {
                 $pesan_balasan = "Data pelayanan\n";    
@@ -85,10 +82,18 @@ Class Api extends CI_Controller{
                 $pesan_balasan .= "Status = " . $status . "\n";    
                 
                 $reply['messages'][0]['text'] = $pesan_balasan;    
+            } elseif ($pesan_datang == 'cekuser') {
+                $pesan_balasan = "ID User = " . $userId;    
+
+                $reply['messages'][0]['text'] = $pesan_balasan;    
             } else {
                 $jumlah_pelayanan = $this->m_api->cek_jumlah_pelayanan_aktif($userId);
                 if ($jumlah_pelayanan == 0) {
                     $reply['messages'][0]['text'] = "Anda belum mengajukan aduan";
+                    $reply['messages'][0]['text'] .= "\n";
+                    foreach ($this->m_api->ambil_data_layanan() as $item) {
+                        $reply['messages'][0]['text'] .= $item->id . ") " . $item->layanan . "\n";
+                    }
                 } else {
                     $pelayanan_terakhir = $this->m_api->ambil_pelayanan_terakhir($userId);
                     if($message['type']=='text') {

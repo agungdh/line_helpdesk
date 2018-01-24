@@ -27,7 +27,7 @@ class Pelayanan extends CI_Controller {
 		$chat = array();
 		$i = 0;
 		foreach ($chat_sementara['waktu'] as $item) {
-			$chat[] = array($chat_sementara['waktu'][$i], $chat_sementara['nama'][$i], $chat_sementara['tipe'][$i], $chat_sementara['isi'][$i], $chat_sementara['id_user'][$i], $chat_sementara['tipe_user'][$i]);
+			$chat[] = array($chat_sementara['waktu'][$i], $chat_sementara['nama'][$i], $chat_sementara['tipe'][$i], $chat_sementara['isi'][$i], $chat_sementara['id_user'][$i], $chat_sementara['tipe_user'][$i], $chat_sementara['id_chat'][$i]);
 			$i++;
 		}
 		$data['data']['chat'] = $chat;

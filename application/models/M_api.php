@@ -4,6 +4,12 @@ class M_api extends CI_Model{
 		parent::__construct();		
 	}
 
+	function ambil_data_layanan() {
+		$sql = "SELECT *
+				FROM layanan";
+		return $this->db->query($sql, array())->result();
+	}
+
 	function tambah_chat_masuk($id_pelayanan, $tipe, $isi, $waktu) {
 		$sql = "INSERT INTO chat_masuk
 				SET id_pelayanan = ?,
@@ -38,13 +44,14 @@ class M_api extends CI_Model{
 		return $this->db->query($sql, array($id_line))->row()->id;
 	}
 
-	function tambah_pelayanan($id_line, $pelayanan, $waktu) {
+	function tambah_pelayanan($id_line, $id_layanan, $pelayanan, $waktu) {
 		$sql = "INSERT INTO pelayanan
 				SET id_line = ?,
+				id_layanan = ?,
 				pelayanan = ?,
 				waktu = ?,
 				status = 0";
-		$this->db->query($sql, array($id_line, $pelayanan, $waktu));
+		$this->db->query($sql, array($id_line, $id_layanan, $pelayanan, $waktu));
 		$insert_id = $this->db->insert_id();
 
 		return $insert_id;

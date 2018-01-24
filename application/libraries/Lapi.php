@@ -48,10 +48,12 @@ class Lapi{
         $client->pushMessage($push);
     }
 
-    function ambil_gambar($gambar) {
+    function ambil_gambar($id_chat, $gambar) {
         $alamat = 'https://api.line.me/v2/bot/message/'.$gambar.'/content';
         $konten = exec_get($alamat, $this->channelAccessToken);    
-        return $konten;
+        $file = fopen("gambar/".$id_chat.'.jpg',"w");
+        fwrite($file,$konten);
+        fclose($file);
     }
 
     function ambil_display_name($userId) {
@@ -71,12 +73,12 @@ class Lapi{
             $profil = $client->profil($item->id_line)->displayName;
             $id_user = $item->id_line;
             $tipe_user = "line";
-            $pesan[] = array(new DateTime($item->waktu), $profil, $item->tipe, $item->isi, $tipe_user, $id_user);
+            $pesan[] = array(new DateTime($item->waktu), $profil, $item->tipe, $item->isi, $tipe_user, $id_user, $item->id);
          }
          foreach ($chat_keluar as $item) {
             $id_user = $item->id;
             $tipe_user = "local";
-            $pesan[] = array(new DateTime($item->waktu), $item->nama, $item->tipe, $item->isi, $tipe_user, $id_user);
+            $pesan[] = array(new DateTime($item->waktu), $item->nama, $item->tipe, $item->isi, $tipe_user, $id_user, $item->id);
          } 
         asort($pesan);
         rsort($pesan);
@@ -87,6 +89,7 @@ class Lapi{
         $chat['isi'] = array();
         $chat['id_user'] = array();
         $chat['tipe_user'] = array();
+        $chat['id_chat'] = array();
         
         foreach ($pesan as $item) {
             $waktu = $item[0]->format('Y-m-d H:i:s');
@@ -95,6 +98,7 @@ class Lapi{
             $isi = $item[3];
             $tipe_user = $item[4];
             $id_user = $item[5];
+            $id_chat = $item[6];
             // echo $waktu . " || " . $nama . " || " . $chat . "<br>";
             $chat['waktu'][] = $waktu;
             $chat['nama'][] = $nama;
@@ -102,6 +106,7 @@ class Lapi{
             $chat['isi'][] = $isi;
             $chat['id_user'][] = $id_user;
             $chat['tipe_user'][] = $tipe_user;
+            $chat['id_chat'][] = $id_chat;
         }
 
         return $chat;
