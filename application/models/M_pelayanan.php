@@ -18,11 +18,18 @@ class M_pelayanan extends CI_Model{
 		return $this->db->query($sql, array($id_pelayanan))->row();
 	}
 
+	function ambil_layanan($id_layanan) {
+		$sql = "SELECT *
+				FROM layanan
+				WHERE id = ?";
+		return $this->db->query($sql, array($id_layanan))->row();
+	}
+
 	function ambil_pelayanan_selesai($id) {
 		$sql = "SELECT *, date(waktu) tanggal
 				FROM pelayanan
 				WHERE status = 2
-				AND id = ?";
+				AND id_layanan = ?";
 		return $this->db->query($sql, array($id))->result();
 	}
 
@@ -30,7 +37,7 @@ class M_pelayanan extends CI_Model{
 		$sql = "SELECT *, date(waktu) tanggal
 				FROM pelayanan
 				WHERE status != 2
-				AND id = ?";
+				AND id_layanan = ?";
 		return $this->db->query($sql, array($id))->result();
 	}
 

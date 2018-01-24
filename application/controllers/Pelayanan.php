@@ -12,6 +12,7 @@ class Pelayanan extends CI_Controller {
 
 	function nomor($id) {
 		$data['isi'] = "pelayanan/index";
+		$data['data']['layanan'] = $this->m_pelayanan->ambil_layanan($id);
 		$data['data']['pelayanan_selesai'] = $this->m_pelayanan->ambil_pelayanan_selesai($id);
 		$data['data']['pelayanan_belum'] = $this->m_pelayanan->ambil_pelayanan_belum($id);
 		$this->load->view("template/template", $data);

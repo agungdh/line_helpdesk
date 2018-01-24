@@ -15,6 +15,7 @@
   });
 </script>
 
+<h1><?php echo $layanan->layanan; ?></h1>
 <a class="btn btn-success" href="<?php echo base_url('pelayanan'); ?>">Refresh</a>
 <div class="box box-primary">
   <div class="box-header with-border">
