@@ -69,8 +69,11 @@ class Lapi{
     function ambil_chat($chat_masuk, $chat_keluar) {
         $client     = new LINEBotTiny($this->channelAccessToken, $this->channelSecret);
         $pesan = array();
+        $profil = null;
         foreach ($chat_masuk as $item) {
-            $profil = $client->profil($item->id_line)->displayName;
+            if ($profil == null) {
+                $profil = $client->profil($item->id_line)->displayName;
+            }
             $id_user = $item->id_line;
             $tipe_user = "line";
             $pesan[] = array(new DateTime($item->waktu), $profil, $item->tipe, $item->isi, $tipe_user, $id_user, $item->id);
