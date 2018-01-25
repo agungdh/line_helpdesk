@@ -89,6 +89,7 @@ Ubah Status => <a class="btn btn-success" href="<?php echo base_url('pelayanan/u
 ?>
 
 <?php
+$src_line = null;
 foreach ($chat as $item) {
 ?>
   <?php
@@ -96,7 +97,10 @@ foreach ($chat as $item) {
     $src = base_url("assets/dist/img/avatar1.png");
     $class = "container darker";
   } elseif ($item[5] == "line") {
-    $src = $this->lapi->ambil_picture_url($item[4]);
+    if ($src_line == null) {
+      $src_line = $this->lapi->ambil_picture_url($item[4]);
+    }
+    $src = $src_line;
     $class = "container";
   }
   ?>
