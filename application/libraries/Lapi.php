@@ -115,6 +115,55 @@ class Lapi{
         return $chat;
     }
 
+    function ambil_chat_log($chat_masuk, $chat_keluar) {
+        $client     = new LINEBotTiny($this->channelAccessToken, $this->channelSecret);
+        $pesan = array();
+        $profil = null;
+        foreach ($chat_masuk as $item) {
+            if ($profil == null) {
+                $profil = $client->profil($item->id_line)->displayName;
+            }
+            $id_user = $item->id_line;
+            $tipe_user = "line";
+            $pesan[] = array(new DateTime($item->waktu), $profil, $item->tipe, $item->isi, $tipe_user, $id_user, $item->id);
+         }
+         foreach ($chat_keluar as $item) {
+            $id_user = $item->id;
+            $tipe_user = "local";
+            $pesan[] = array(new DateTime($item->waktu), $item->nama, $item->tipe, $item->isi, $tipe_user, $id_user, $item->id);
+         } 
+        asort($pesan);
+        // rsort($pesan);
+
+        $chat['waktu'] = array();
+        $chat['nama'] = array();
+        $chat['tipe'] = array();
+        $chat['isi'] = array();
+        $chat['id_user'] = array();
+        $chat['tipe_user'] = array();
+        $chat['id_chat'] = array();
+        
+        foreach ($pesan as $item) {
+            $waktu = $item[0]->format('Y-m-d H:i:s');
+            $nama = $item[1];
+            $tipe = $item[2];
+            $isi = $item[3];
+            $tipe_user = $item[4];
+            $id_user = $item[5];
+            $id_chat = $item[6];
+            // echo $waktu . " || " . $nama . " || " . $chat . "<br>";
+            $chat['waktu'][] = $waktu;
+            $chat['nama'][] = $nama;
+            $chat['tipe'][] = $tipe;
+            $chat['isi'][] = $isi;
+            $chat['id_user'][] = $id_user;
+            $chat['tipe_user'][] = $tipe_user;
+            $chat['id_chat'][] = $id_chat;
+        }
+
+        return $chat;
+    }
+
  
 }
 

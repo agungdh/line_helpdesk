@@ -8,6 +8,7 @@ class Pelayanan extends CI_Controller {
 		$this->load->model('m_api');
 		$this->load->library('lapi');
 		$this->load->library('pustaka');
+		$this->load->library('email');
 	}
 
 	function nomor($id) {
@@ -33,6 +34,72 @@ class Pelayanan extends CI_Controller {
 		}
 		$data['data']['chat'] = $chat;
 		$this->load->view("template/template", $data);	
+	}
+
+	function log($id_pelayanan){
+		$data['id_pelayanan'] = $id_pelayanan;
+		$data['pelayanan'] = $this->m_pelayanan->ambil_pelayanan($id_pelayanan);
+		$chat_masuk = $this->m_api->ambil_chat_masuk($id_pelayanan);
+		$chat_keluar = $this->m_api->ambil_chat_keluar($id_pelayanan);
+		$chat_sementara = $this->lapi->ambil_chat_log($chat_masuk, $chat_keluar);
+		$chat = array();
+		$i = 0;
+		foreach ($chat_sementara['waktu'] as $item) {
+			$chat[] = array($chat_sementara['waktu'][$i], $chat_sementara['nama'][$i], $chat_sementara['tipe'][$i], $chat_sementara['isi'][$i], $chat_sementara['id_user'][$i], $chat_sementara['tipe_user'][$i], $chat_sementara['id_chat'][$i]);
+			$i++;
+		}
+		$data['chat'] = $chat;
+		$this->load->view("pelayanan/log", $data);	
+
+		$html = $this->output->get_output();
+		$this->load->library('dompdf_gen');
+		$this->dompdf->load_html($html);
+		$this->dompdf->render();
+		$this->dompdf->stream("test.pdf");
+	}
+
+	function log_test2($id_pelayanan, $to1 = 'agungdh', $to2 = 'live.com'){
+		$data['id_pelayanan'] = $id_pelayanan;
+		$data['pelayanan'] = $this->m_pelayanan->ambil_pelayanan($id_pelayanan);
+		$chat_masuk = $this->m_api->ambil_chat_masuk($id_pelayanan);
+		$chat_keluar = $this->m_api->ambil_chat_keluar($id_pelayanan);
+		$chat_sementara = $this->lapi->ambil_chat_log($chat_masuk, $chat_keluar);
+		$chat = array();
+		$i = 0;
+		foreach ($chat_sementara['waktu'] as $item) {
+			$chat[] = array($chat_sementara['waktu'][$i], $chat_sementara['nama'][$i], $chat_sementara['tipe'][$i], $chat_sementara['isi'][$i], $chat_sementara['id_user'][$i], $chat_sementara['tipe_user'][$i], $chat_sementara['id_chat'][$i]);
+			$i++;
+		}
+		$data['chat'] = $chat;
+		$this->load->view("pelayanan/log", $data);	
+
+		$html = $this->output->get_output();
+		
+		$config['mailtype'] = 'html';
+		$this->email->initialize($config);
+		$this->email->to($to1 . '@' . $to2);
+		$this->email->from('agungdh@agungdh.com','AgungDH');
+		$this->email->subject('test log');
+		$this->email->message($html);
+		$this->email->send();
+		
+		// $this->pustaka->kirim_email_html('agungdh@live.com', 'test log', $html);
+	}
+
+	function log_test($id_pelayanan){
+		$data['id_pelayanan'] = $id_pelayanan;
+		$data['pelayanan'] = $this->m_pelayanan->ambil_pelayanan($id_pelayanan);
+		$chat_masuk = $this->m_api->ambil_chat_masuk($id_pelayanan);
+		$chat_keluar = $this->m_api->ambil_chat_keluar($id_pelayanan);
+		$chat_sementara = $this->lapi->ambil_chat_log($chat_masuk, $chat_keluar);
+		$chat = array();
+		$i = 0;
+		foreach ($chat_sementara['waktu'] as $item) {
+			$chat[] = array($chat_sementara['waktu'][$i], $chat_sementara['nama'][$i], $chat_sementara['tipe'][$i], $chat_sementara['isi'][$i], $chat_sementara['id_user'][$i], $chat_sementara['tipe_user'][$i], $chat_sementara['id_chat'][$i]);
+			$i++;
+		}
+		$data['chat'] = $chat;
+		$this->load->view("pelayanan/log", $data);	
 	}
 
 	function chat() {
