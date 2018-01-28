@@ -74,7 +74,18 @@ $(document).ready(function(){
         },
         function(data,status){
             var obj = JSON.parse(data);
-            alert('ID Pelayanan = ' + obj.id_pelayanan + "\n" + 'Last ID = ' + obj.last_id);
+            $('#div_ajax').append(
+              '<div class="container">' +
+              '<input type="hidden" name="114" id="114" value="1">' +
+              '<img class="dp" src="http://dl.profile.line-cdn.net/0hoWZbaoVpMHhnGxx_bRJPL1tePhUQNTYwH3UsHUsbOh0fIiAuXX8rS0BMaBoZLCMvD3ktHkYTbhod" alt="Avatar">' +
+              '<span class="time-left">AgungDH</span>' +
+              '<br>' +
+              '<span class="time-left">28-01-2018 14:32:02</span>' +
+              '<br>' +
+              'test  <br>' +
+            '</div>'
+              );
+            // $('#div_ajax').append('ID Pelayanan = ' + obj.id_pelayanan + "\n" + 'Last ID = ' + obj.last_id + '<br>');
             // alert('as');
         }); 
         // alert($("#last_id").val());
@@ -146,6 +157,10 @@ Ubah Status => <a class="btn btn-success" href="<?php echo base_url('pelayanan/u
 <?php
 }
 ?>
+
+<div id="div_ajax">
+  
+</div>
 
 <?php
 $src_line = null;
