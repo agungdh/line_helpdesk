@@ -117,15 +117,27 @@ class Pelayanan extends CI_Controller {
 	}
 
 	function ajax_cek_pesan_baru() {
-		$json['id_pelayanan'] = $this->input->post('id_pelayanan');
-		$json['last_id'] = $this->input->post('last_id');
-		echo json_encode($json);
+		$id_pelayanan = $this->input->post('id_pelayanan');
+		$chat_masuk = $this->m_api->ambil_chat_masuk($id_pelayanan);
+		$chat_keluar = $this->m_api->ambil_chat_keluar($id_pelayanan);
+		$chat_sementara = $this->lapi->ambil_chat($chat_masuk, $chat_keluar);
+		$chat = array();
+		$i = 0;
+		foreach ($chat_sementara['waktu'] as $item) {
+			$chat[] = array($chat_sementara['waktu'][$i], $chat_sementara['nama'][$i], $chat_sementara['tipe'][$i], $chat_sementara['isi'][$i], $chat_sementara['id_user'][$i], $chat_sementara['tipe_user'][$i], $chat_sementara['id_chat'][$i]);
+			$i++;
+		}
+
+		foreach ($chat as $item) {
+		  $this->lapi->append_chat($item[0],$item[1],$item[2],$item[3],$item[4],$item[5],$item[6]);
+		}
+
 	}
 
-	function ajax_kirim_pesan() {
-		$chat = $this->input->post('chat');
-		$id_pelayanan = $this->input->post('id_pelayanan');
-		$id_line = $this->input->post('id_line');
+	function ajax_kirim_pesan($chat = null, $id_pelayanan = null, $id_line = null) {
+		$chat = $chat == null ? $this->input->post('chat') : $chat;
+		$id_pelayanan = $id_pelayanan == null ? $this->input->post('id_pelayanan') : $id_pelayanan;
+		$id_line = $id_line == null ? $this->input->post('id_line') : $id_line;
 		if (trim($chat) != null && $this->session->id != null) {
 			$this->lapi->push($id_line, $chat);
 			$this->m_pelayanan->chat_keluar($this->session->id, $id_pelayanan, "text", $chat, date('Y-m-d H:i:s'));			

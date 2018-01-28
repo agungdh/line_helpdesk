@@ -67,25 +67,36 @@
   //   });
 $(document).ready(function(){
   $("#refresh").click(function(){
+        if ($("#bisa_refresh").val() == '0') {
+          alert('sabs');
+          return;
+        } else {
+
+        }
+        // alert($("#bisa_refresh").val()),
+        $("#bisa_refresh").val('0'),
         $.post('<?php echo base_url('pelayanan/ajax_cek_pesan_baru'); ?>',
         {
           id_pelayanan: '<?php echo $id_pelayanan; ?>',
           last_id: $("#last_id").val(),
         },
         function(data,status){
-            var obj = JSON.parse(data);
-            $('#div_ajax').append(
-              '<div class="container">' +
-              '<input type="hidden" name="114" id="114" value="1">' +
-              '<img class="dp" src="http://dl.profile.line-cdn.net/0hoWZbaoVpMHhnGxx_bRJPL1tePhUQNTYwH3UsHUsbOh0fIiAuXX8rS0BMaBoZLCMvD3ktHkYTbhod" alt="Avatar">' +
-              '<span class="time-left">AgungDH</span>' +
-              '<br>' +
-              '<span class="time-left">28-01-2018 14:32:02</span>' +
-              '<br>' +
-              'test  <br>' +
-            '</div>'
-              );
-            // $('#div_ajax').append('ID Pelayanan = ' + obj.id_pelayanan + "\n" + 'Last ID = ' + obj.last_id + '<br>');
+          $("#bisa_refresh").val('1'),
+            // var obj = JSON.parse(data);
+            
+            // $('#div_ajax').append(
+            //   '<div class="container">' +
+            //   '<input type="hidden" name="114" id="114" value="1">' +
+            //   '<img class="dp" src="http://dl.profile.line-cdn.net/0hoWZbaoVpMHhnGxx_bRJPL1tePhUQNTYwH3UsHUsbOh0fIiAuXX8rS0BMaBoZLCMvD3ktHkYTbhod" alt="Avatar">' +
+            //   '<span class="time-left">AgungDH</span>' +
+            //   '<br>' +
+            //   '<span class="time-left">28-01-2018 14:32:02</span>' +
+            //   '<br>' +
+            //   'test  <br>' +
+            // '</div>'
+            //   );
+
+            $('#div_ajax').append(data);
             // alert('as');
         }); 
         // alert($("#last_id").val());
@@ -136,12 +147,12 @@ if ($pelayanan->status == 0) {
   $status = "Error !!!";
 }
 ?>
+<button class="btn btn-success" id="refresh" name="refresh">Refresh</button>
 <?php 
 if ($pelayanan->status != 2) {
 ?>
 
 <!-- <a class="btn btn-success" href="<?php echo base_url('pelayanan/lihat/'.$id_pelayanan); ?>">Refresh</a> -->
-<button class="btn btn-success" id="refresh" name="refresh">Refresh</button>
 <br>
 Status : <?php echo $status; ?>
 <br>
@@ -163,13 +174,13 @@ Ubah Status => <a class="btn btn-success" href="<?php echo base_url('pelayanan/u
 </div>
 
 <?php
-$last_id = null;
-foreach ($chat as $item) {
-  if ($last_id == null) {
-    $last_id = $item[6];
-  }
-$this->lapi->append_chat($item[0],$item[1],$item[2],$item[3],$item[4],$item[5],$item[6]);
-}
+// $last_id = null;
+// foreach ($chat as $item) {
+//   if ($last_id == null) {
+//     $last_id = $item[6];
+//   }
+// $this->lapi->append_chat($item[0],$item[1],$item[2],$item[3],$item[4],$item[5],$item[6]);
+// }
 ?>
 <div class="container">
   <img class="dp" src="<?php echo $this->lapi->ambil_picture_url($pelayanan->id_line); ?>" alt="Avatar">
@@ -180,4 +191,6 @@ $this->lapi->append_chat($item[0],$item[1],$item[2],$item[3],$item[4],$item[5],$
   <?php echo $pelayanan->pelayanan; ?>
   <br>
 </div>
-<input type="hidden" name="last_id" id="last_id" value="<?php echo $last_id; ?>">
+<input type="hidden" name="last_id" id="last_id" value="">
+<input type="hidden" name="bisa_refresh" id="bisa_refresh" value="1">
+<!-- <input type="hidden" name="last_id" id="last_id" value="<?php echo $last_id; ?>"> -->
