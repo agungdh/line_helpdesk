@@ -126,10 +126,9 @@ class Pelayanan extends CI_Controller {
 		$chat = $this->input->post('chat');
 		$id_pelayanan = $this->input->post('id_pelayanan');
 		$id_line = $this->input->post('id_line');
-		$this->lapi->push($id_line, $chat);
-		$this->m_pelayanan->chat_keluar($this->session->id, $id_pelayanan, "text", $chat, date('Y-m-d H:i:s'));
-
-		// $json['chat'] = $chat;
-		// echo json_encode($json);
+		if (trim($chat) != null) {
+			$this->lapi->push($id_line, $chat);
+			$this->m_pelayanan->chat_keluar($this->session->id, $id_pelayanan, "text", $chat, date('Y-m-d H:i:s'));			
+		}
 	}
 }
