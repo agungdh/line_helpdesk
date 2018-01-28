@@ -121,4 +121,15 @@ class Pelayanan extends CI_Controller {
 		$json['last_id'] = $this->input->post('last_id');
 		echo json_encode($json);
 	}
+
+	function ajax_kirim_pesan() {
+		$chat = $this->input->post('chat');
+		$id_pelayanan = $this->input->post('id_pelayanan');
+		$id_line = $this->input->post('id_line');
+		$this->lapi->push($id_line, $chat);
+		$this->m_pelayanan->chat_keluar($this->session->id, $id_pelayanan, "text", $chat, date('Y-m-d H:i:s'));
+
+		// $json['chat'] = $chat;
+		// echo json_encode($json);
+	}
 }

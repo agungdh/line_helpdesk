@@ -80,6 +80,23 @@ $(document).ready(function(){
         // alert($("#last_id").val());
         // $("#last_id").val($("#last_id").val()+1);
     });
+
+  $("#kirim").click(function(){
+        $.post('<?php echo base_url('pelayanan/ajax_kirim_pesan'); ?>',
+        {
+          chat: $("#chat").val(),
+          id_pelayanan: $("#id_pelayanan").val(),
+          id_line: $("#id_line").val(),
+        },
+        function(data,status){
+            $("#chat").val('');
+            // var obj = JSON.parse(data);
+            // alert('ID Pelayanan = ' + obj.id_pelayanan + "\n" + 'Last ID = ' + obj.last_id);
+            // alert();
+        }); 
+        // alert($("#last_id").val());
+        // $("#last_id").val($("#last_id").val()+1);
+    });
 });
 </script>
 
@@ -111,12 +128,13 @@ if ($pelayanan->status != 2) {
 Status : <?php echo $status; ?>
 <br>
 Ubah Status => <a class="btn btn-success" href="<?php echo base_url('pelayanan/ubah_status/'.$id_pelayanan.'/'.$next_status_number); ?>"><?php echo $next_status; ?></a>
-<form action="<?php echo base_url('pelayanan/chat'); ?>" method="post">
-  <input type="hidden" name="id_pelayanan" value="<?php echo $id_pelayanan; ?>">
-  <input type="hidden" name="id_line" value="<?php echo $pelayanan->id_line; ?>">
-  <input type="text" name="chat" class="form-control" placeholder="Isi Chat">
-  <input type="submit" value="kirim" class="btn btn-success">
-</form>
+<!-- <form action="<?php echo base_url('pelayanan/chat'); ?>" method="post"> -->
+  <input type="hidden" name="id_pelayanan" id="id_pelayanan" value="<?php echo $id_pelayanan; ?>">
+  <input type="hidden" name="id_line" id="id_line" value="<?php echo $pelayanan->id_line; ?>">
+  <input type="text" name="chat" id="chat" class="form-control" placeholder="Isi Chat">
+  <button class="btn btn-success" id="kirim">Kirim</button>
+  <!-- <input type="submit" value="kirim" class="btn btn-success"> -->
+<!-- </form> -->
 
 <?php
 }
