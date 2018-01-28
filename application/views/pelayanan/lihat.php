@@ -51,8 +51,22 @@
 </style>
 
 <script type="text/javascript">
-  setInterval(
-    function(){ 
+  // $("#refresh").click(function(){ 
+  //       $.post('<?php echo base_url('pelayanan/ajax_cek_pesan_baru'); ?>',
+  //       {
+  //         id_pelayanan: '<?php echo $id_pelayanan; ?>',
+  //         last_id: $("#last_id").val(),
+  //       },
+  //       function(data,status){
+  //           var obj = JSON.parse(data);
+  //           alert('ID Pelayanan = ' + obj.id_pelayanan + "\n" + 'Last ID = ' + obj.last_id);
+  //           // alert('as');
+  //       }); 
+  //       // alert($("#last_id").val());
+  //       // $("#last_id").val($("#last_id").val()+1);
+  //   });
+$(document).ready(function(){
+  $("#refresh").click(function(){
         $.post('<?php echo base_url('pelayanan/ajax_cek_pesan_baru'); ?>',
         {
           id_pelayanan: '<?php echo $id_pelayanan; ?>',
@@ -65,8 +79,8 @@
         }); 
         // alert($("#last_id").val());
         // $("#last_id").val($("#last_id").val()+1);
-    }, 1500
-    );
+    });
+});
 </script>
 
 <a class="btn btn-success" href="<?php echo base_url('pelayanan'); ?>">Kembali</a>
@@ -91,7 +105,8 @@ if ($pelayanan->status == 0) {
 if ($pelayanan->status != 2) {
 ?>
 
-<a class="btn btn-success" href="<?php echo base_url('pelayanan/lihat/'.$id_pelayanan); ?>">Refresh</a>
+<!-- <a class="btn btn-success" href="<?php echo base_url('pelayanan/lihat/'.$id_pelayanan); ?>">Refresh</a> -->
+<button class="btn btn-success" id="refresh" name="refresh">Refresh</button>
 <br>
 Status : <?php echo $status; ?>
 <br>
