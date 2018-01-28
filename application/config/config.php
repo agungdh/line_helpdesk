@@ -24,7 +24,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 |
 */
 // $config['base_url'] = 'https://apps.agungdh.com/line_helpdesk/';
-$config['base_url'] = 'http://localhost/api_line_helpdesk/';
+$config['base_url'] = 'http://localhost/line_helpdesk/';
 
 /*
 |--------------------------------------------------------------------------
