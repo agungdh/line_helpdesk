@@ -97,6 +97,13 @@ $(document).ready(function(){
         // alert($("#last_id").val());
         // $("#last_id").val($("#last_id").val()+1);
     });
+
+  $("#chat").keyup(function(event) {
+    if (event.keyCode === 13) {
+        $("#kirim").click();
+    }
+  });
+
 });
 </script>
 
