@@ -51,29 +51,12 @@
 </style>
 
 <script type="text/javascript">
-  // $("#refresh").click(function(){ 
-  //       $.post('<?php echo base_url('pelayanan/ajax_cek_pesan_baru'); ?>',
-  //       {
-  //         id_pelayanan: '<?php echo $id_pelayanan; ?>',
-  //         last_id: $("#last_id").val(),
-  //       },
-  //       function(data,status){
-  //           var obj = JSON.parse(data);
-  //           alert('ID Pelayanan = ' + obj.id_pelayanan + "\n" + 'Last ID = ' + obj.last_id);
-  //           // alert('as');
-  //       }); 
-  //       // alert($("#last_id").val());
-  //       // $("#last_id").val($("#last_id").val()+1);
-  //   });
 $(document).ready(function(){
   $("#refresh").click(function(){
         if ($("#bisa_refresh").val() == '0') {
           alert('sabs');
           return;
-        } else {
-
         }
-        // alert($("#bisa_refresh").val()),
         $("#bisa_refresh").val('0'),
         $.post('<?php echo base_url('pelayanan/ajax_cek_pesan_baru'); ?>',
         {
@@ -82,25 +65,8 @@ $(document).ready(function(){
         },
         function(data,status){
           $("#bisa_refresh").val('1'),
-            // var obj = JSON.parse(data);
-            
-            // $('#div_ajax').append(
-            //   '<div class="container">' +
-            //   '<input type="hidden" name="114" id="114" value="1">' +
-            //   '<img class="dp" src="http://dl.profile.line-cdn.net/0hoWZbaoVpMHhnGxx_bRJPL1tePhUQNTYwH3UsHUsbOh0fIiAuXX8rS0BMaBoZLCMvD3ktHkYTbhod" alt="Avatar">' +
-            //   '<span class="time-left">AgungDH</span>' +
-            //   '<br>' +
-            //   '<span class="time-left">28-01-2018 14:32:02</span>' +
-            //   '<br>' +
-            //   'test  <br>' +
-            // '</div>'
-            //   );
-
-            $('#div_ajax').append(data);
-            // alert('as');
+            $('#div_ajax').prepend(data);
         }); 
-        // alert($("#last_id").val());
-        // $("#last_id").val($("#last_id").val()+1);
     });
 
   $("#kirim").click(function(){
@@ -112,12 +78,7 @@ $(document).ready(function(){
         },
         function(data,status){
             $("#chat").val('');
-            // var obj = JSON.parse(data);
-            // alert('ID Pelayanan = ' + obj.id_pelayanan + "\n" + 'Last ID = ' + obj.last_id);
-            // alert();
         }); 
-        // alert($("#last_id").val());
-        // $("#last_id").val($("#last_id").val()+1);
     });
 
   $("#chat").keyup(function(event) {
