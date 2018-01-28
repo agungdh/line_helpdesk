@@ -117,9 +117,8 @@ class Pelayanan extends CI_Controller {
 	}
 
 	function ajax_cek_pesan_baru() {
-		$id_pelayanan = $this->input->post('id_pelayanan');
-		$last_id = $this->input->post('last_id');
-
-		echo "id pelayanan = " . $id_pelayanan . "\n" . "last id = " . $last_id;
+		$json['id_pelayanan'] = $this->input->post('id_pelayanan');
+		$json['last_id'] = $this->input->post('last_id');
+		echo json_encode($json);
 	}
 }

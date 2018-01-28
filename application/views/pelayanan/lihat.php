@@ -59,7 +59,8 @@
           last_id: $("#last_id").val(),
         },
         function(data,status){
-            alert(data);
+            var obj = JSON.parse(data);
+            alert('ID Pelayanan = ' + obj.id_pelayanan + "\n" + 'Last ID = ' + obj.last_id);
             // alert('as');
         }); 
         // alert($("#last_id").val());
