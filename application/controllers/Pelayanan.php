@@ -115,4 +115,11 @@ class Pelayanan extends CI_Controller {
 		$this->m_pelayanan->ubah_status($id_pelayanan, $status);
 		redirect(base_url('pelayanan/lihat/'.$id_pelayanan));
 	}
+
+	function ajax_cek_pesan_baru() {
+		$id_pelayanan = $this->input->post('id_pelayanan');
+		$last_id = $this->input->post('last_id');
+
+		echo "id pelayanan = " . $id_pelayanan . "\n" . "last id = " . $last_id;
+	}
 }

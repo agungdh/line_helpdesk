@@ -50,6 +50,24 @@
 } 
 </style>
 
+<script type="text/javascript">
+  setInterval(
+    function(){ 
+        $.post('<?php echo base_url('pelayanan/ajax_cek_pesan_baru'); ?>',
+        {
+          id_pelayanan: '<?php echo $id_pelayanan; ?>',
+          last_id: $("#last_id").val(),
+        },
+        function(data,status){
+            alert(data);
+            // alert('as');
+        }); 
+        // alert($("#last_id").val());
+        // $("#last_id").val($("#last_id").val()+1);
+    }, 1500
+    );
+</script>
+
 <a class="btn btn-success" href="<?php echo base_url('pelayanan'); ?>">Kembali</a>
 <?php
 if ($pelayanan->status == 0) {
@@ -91,6 +109,7 @@ Ubah Status => <a class="btn btn-success" href="<?php echo base_url('pelayanan/u
 <?php
 $src_line = null;
 foreach ($chat as $item) {
+  $last_id = $item[6];
 ?>
   <?php
   if ($item[5] == "local") {
@@ -135,3 +154,4 @@ foreach ($chat as $item) {
   <?php echo $pelayanan->pelayanan; ?>
   <br>
 </div>
+<input type="hidden" name="last_id" id="last_id" value="<?php echo $last_id; ?>">
