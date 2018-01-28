@@ -149,8 +149,11 @@ Ubah Status => <a class="btn btn-success" href="<?php echo base_url('pelayanan/u
 
 <?php
 $src_line = null;
+$last_id = null;
 foreach ($chat as $item) {
-  $last_id = $item[6];
+  if ($last_id == null) {
+    $last_id = $item[6];
+  }
 ?>
   <?php
   if ($item[5] == "local") {
@@ -175,6 +178,7 @@ foreach ($chat as $item) {
   }
   ?>
 <div class="<?php echo $class; ?>">
+  <input type="hidden" name="<?php echo $item['6']; ?>" id="<?php echo $item['6']; ?>" value="1">
   <img class="dp" src="<?php echo $src; ?>" alt="Avatar">
   <span class="time-left"><?php echo $item[1]; ?></span>
   <br>
