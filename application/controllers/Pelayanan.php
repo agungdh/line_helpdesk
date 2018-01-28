@@ -23,16 +23,6 @@ class Pelayanan extends CI_Controller {
 		$data['isi'] = "pelayanan/lihat";
 		$data['data']['id_pelayanan'] = $id_pelayanan;
 		$data['data']['pelayanan'] = $this->m_pelayanan->ambil_pelayanan($id_pelayanan);
-		$chat_masuk = $this->m_api->ambil_chat_masuk($id_pelayanan);
-		$chat_keluar = $this->m_api->ambil_chat_keluar($id_pelayanan);
-		$chat_sementara = $this->lapi->ambil_chat($chat_masuk, $chat_keluar);
-		$chat = array();
-		$i = 0;
-		foreach ($chat_sementara['waktu'] as $item) {
-			$chat[] = array($chat_sementara['waktu'][$i], $chat_sementara['nama'][$i], $chat_sementara['tipe'][$i], $chat_sementara['isi'][$i], $chat_sementara['id_user'][$i], $chat_sementara['tipe_user'][$i], $chat_sementara['id_chat'][$i]);
-			$i++;
-		}
-		$data['data']['chat'] = $chat;
 		$this->load->view("template/template", $data);	
 	}
 
@@ -128,9 +118,18 @@ class Pelayanan extends CI_Controller {
 			$i++;
 		}
 
+		$last_id = null;
 		foreach ($chat as $item) {
+			if ($last_id == null) {
+				$last_id = $item[5].$item[6];
+			}
 		  $this->lapi->append_chat($item[0],$item[1],$item[2],$item[3],$item[4],$item[5],$item[6]);
 		}
+		?>
+		<script type="text/javascript">
+			ganti_last_id('<?php echo $last_id; ?>');
+		</script>
+		<?php
 
 	}
 

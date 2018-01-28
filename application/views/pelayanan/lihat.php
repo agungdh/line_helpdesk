@@ -51,10 +51,13 @@
 </style>
 
 <script type="text/javascript">
+function ganti_last_id(last_id) {
+  $("#last_id").val(last_id);
+}
+
 $(document).ready(function(){
   $("#refresh").click(function(){
         if ($("#bisa_refresh").val() == '0') {
-          alert('sabs');
           return;
         }
         $("#bisa_refresh").val('0'),
@@ -64,8 +67,9 @@ $(document).ready(function(){
           last_id: $("#last_id").val(),
         },
         function(data,status){
+          $('#div_ajax').prepend(data),
           $("#bisa_refresh").val('1'),
-            $('#div_ajax').prepend(data);
+          alert($('#last_id').val());
         }); 
     });
 
@@ -134,15 +138,6 @@ Ubah Status => <a class="btn btn-success" href="<?php echo base_url('pelayanan/u
   
 </div>
 
-<?php
-// $last_id = null;
-// foreach ($chat as $item) {
-//   if ($last_id == null) {
-//     $last_id = $item[6];
-//   }
-// $this->lapi->append_chat($item[0],$item[1],$item[2],$item[3],$item[4],$item[5],$item[6]);
-// }
-?>
 <div class="container">
   <img class="dp" src="<?php echo $this->lapi->ambil_picture_url($pelayanan->id_line); ?>" alt="Avatar">
   <span class="time-left"><?php echo $this->lapi->ambil_display_name($pelayanan->id_line); ?></span>
@@ -152,6 +147,6 @@ Ubah Status => <a class="btn btn-success" href="<?php echo base_url('pelayanan/u
   <?php echo $pelayanan->pelayanan; ?>
   <br>
 </div>
-<input type="hidden" name="last_id" id="last_id" value="">
+<input type="hidden" name="last_id" id="last_id" value="0">
 <input type="hidden" name="bisa_refresh" id="bisa_refresh" value="1">
 <!-- <input type="hidden" name="last_id" id="last_id" value="<?php echo $last_id; ?>"> -->
