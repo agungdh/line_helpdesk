@@ -32,7 +32,7 @@ class Lapi{
 
           ?>
         <div class="<?php echo $class; ?>">
-          <input type="hidden" name="<?php echo $item6; ?>" id="<?php echo $item6; ?>" value="1">
+          <input type="hidden" name="<?php echo $item5.$item6; ?>" id="<?php echo $item5.$item6; ?>" value="1">
           <img class="dp" src="<?php echo $src; ?>" alt="Avatar">
           <span class="time-left"><?php echo $item1; ?></span>
           <br>
