@@ -36,7 +36,7 @@ class Lapi{
           <img class="dp" src="<?php echo $src; ?>" alt="Avatar">
           <span class="time-left"><?php echo $item1; ?></span>
           <br>
-          <span class="time-left"><?php echo $item0; ?></span>
+          <span class="time-left"><?php echo date("d-m-Y H:i:s", strtotime($item0)); ?></span>
           <br>
           <?php echo $isi; ?>
           <br>
