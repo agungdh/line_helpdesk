@@ -163,46 +163,12 @@ Ubah Status => <a class="btn btn-success" href="<?php echo base_url('pelayanan/u
 </div>
 
 <?php
-$src_line = null;
 $last_id = null;
 foreach ($chat as $item) {
   if ($last_id == null) {
     $last_id = $item[6];
   }
-?>
-  <?php
-  if ($item[5] == "local") {
-    $src = base_url("assets/dist/img/avatar1.png");
-    $class = "container darker";
-  } elseif ($item[5] == "line") {
-    if ($src_line == null) {
-      $src_line = $this->lapi->ambil_picture_url($item[4]);
-    }
-    $src = $src_line;
-    $class = "container";
-  }
-  ?>
-  <?php
-  if ($item[2] == "text") {
-    $isi = $item[3];
-  } elseif ($item[2] == "image") {
-    if (!file_exists('gambar/'.$item[6].'.jpg')) {
-      $konten = $this->lapi->ambil_gambar($item[6], $item[3]);        
-    }
-    $isi = '<img src="'.base_url('gambar/'.$item[6]).'.jpg"/>';
-  }
-  ?>
-<div class="<?php echo $class; ?>">
-  <input type="hidden" name="<?php echo $item['6']; ?>" id="<?php echo $item['6']; ?>" value="1">
-  <img class="dp" src="<?php echo $src; ?>" alt="Avatar">
-  <span class="time-left"><?php echo $item[1]; ?></span>
-  <br>
-  <span class="time-left"><?php echo $this->pustaka->tanggal_jam_indo($item[0]); ?></span>
-  <br>
-  <?php echo $isi; ?>
-  <br>
-</div>
-<?php
+$this->lapi->append_chat($item[0],$item[1],$item[2],$item[3],$item[4],$item[5],$item[6]);
 }
 ?>
 <div class="container">

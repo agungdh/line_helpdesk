@@ -8,6 +8,44 @@ class Lapi{
         $this->channelSecret = '2cf7003f0de82c2c18acc9389571da39';
     }
 
+    function append_chat($item0,$item1,$item2,$item3,$item4,$item5,$item6) {
+        $src_line = null;
+        if ($item5 == "local") {
+            $src = base_url("assets/dist/img/avatar1.png");
+            $class = "container darker";
+        } elseif ($item5 == "line") {
+            if ($src_line == null) {
+              $src_line = $this->ambil_picture_url($item4);
+            }
+            $src = $src_line;
+            $class = "container";
+        }
+
+        if ($item2 == "text") {
+            $isi = $item3;
+        } elseif ($item2 == "image") {
+            if (!file_exists('gambar/'.$item6.'.jpg')) {
+              $konten = $this->ambil_gambar($item6, $item3);        
+            }
+            $isi = '<img src="'.base_url('gambar/'.$item6).'.jpg"/>';
+        }
+
+          ?>
+        <div class="<?php echo $class; ?>">
+          <input type="hidden" name="<?php echo $item6; ?>" id="<?php echo $item6; ?>" value="1">
+          <img class="dp" src="<?php echo $src; ?>" alt="Avatar">
+          <span class="time-left"><?php echo $item1; ?></span>
+          <br>
+          <span class="time-left"><?php echo $item0; ?></span>
+          <br>
+          <?php echo $isi; ?>
+          <br>
+        </div>
+        <?php
+
+
+    }
+
     function cek_pesan_baru($chat_masuk, $chat_keluar) {
         $pesan = array();
         foreach ($chat_masuk as $item) {
