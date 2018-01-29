@@ -118,16 +118,24 @@ class Pelayanan extends CI_Controller {
 			$i++;
 		}
 
-		$last_id = null;
+		$last_id_local = null;
+		$last_id_line = null;
 		foreach ($chat as $item) {
-			if ($last_id == null) {
-				$last_id = $item[5].$item[6];
+			if ($last_id_local == null) {
+				if ($item[5] == 'local') {
+					$last_id_local = $item[6];
+				}
+			}
+			if ($last_id_line == null) {
+				if ($item[5] == 'line') {
+					$last_id_line = $item[6];
+				}
 			}
 		  $this->lapi->append_chat($item[0],$item[1],$item[2],$item[3],$item[4],$item[5],$item[6]);
 		}
 		?>
 		<script type="text/javascript">
-			ganti_last_id('<?php echo $last_id; ?>');
+			ganti_last_id('<?php echo $last_id_local; ?>', '<?php echo $last_id_line; ?>');
 		</script>
 		<?php
 

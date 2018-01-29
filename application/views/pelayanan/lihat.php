@@ -51,8 +51,9 @@
 </style>
 
 <script type="text/javascript">
-function ganti_last_id(last_id) {
-  $("#last_id").val(last_id);
+function ganti_last_id(local, line) {
+  $("#last_id_local").val(local);
+  $("#last_id_line").val(line);
 }
 
 $(document).ready(function(){
@@ -64,12 +65,16 @@ $(document).ready(function(){
         $.post('<?php echo base_url('pelayanan/ajax_cek_pesan_baru'); ?>',
         {
           id_pelayanan: '<?php echo $id_pelayanan; ?>',
-          last_id: $("#last_id").val(),
+          last_id_local: $("#last_id_local").val(),
+          last_id_line: $("#last_id_line").val(),
         },
         function(data,status){
           $('#div_ajax').prepend(data),
           $("#bisa_refresh").val('1'),
-          alert($('#last_id').val());
+          alert(
+            'local = ' + $('#last_id_local').val() + "\n"
+            + 'line = ' + $('#last_id_line').val()
+            );
         }); 
     });
 
@@ -147,6 +152,7 @@ Ubah Status => <a class="btn btn-success" href="<?php echo base_url('pelayanan/u
   <?php echo $pelayanan->pelayanan; ?>
   <br>
 </div>
-<input type="hidden" name="last_id" id="last_id" value="0">
+<input type="hidden" name="last_id_local" id="last_id_local" value="0">
+<input type="hidden" name="last_id_line" id="last_id_line" value="0">
 <input type="hidden" name="bisa_refresh" id="bisa_refresh" value="1">
 <!-- <input type="hidden" name="last_id" id="last_id" value="<?php echo $last_id; ?>"> -->
