@@ -71,10 +71,12 @@ $(document).ready(function(){
         function(data,status){
           $('#div_ajax').prepend(data),
           $("#bisa_refresh").val('1');
-        }); 
+        });
+        $("#chat").prop('disabled', false);
     });
 
   $("#kirim").click(function(){
+        $("#chat").prop('disabled', true),
         $.post('<?php echo base_url('pelayanan/ajax_kirim_pesan'); ?>',
         {
           chat: $("#chat").val(),
@@ -82,8 +84,8 @@ $(document).ready(function(){
           id_line: $("#id_line").val(),
         },
         function(data,status){
-            $("#chat").val(''),
-            $("#refresh").click();
+            $("#refresh").click(),
+            $("#chat").val('');
         }); 
     });
 
