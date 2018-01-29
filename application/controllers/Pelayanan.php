@@ -149,6 +149,8 @@ class Pelayanan extends CI_Controller {
 				$i++;
 			}
 
+			$last_id_local = null;
+			$last_id_line = null;
 			foreach ($chat as $item) {
 				if ($last_id_local == null) {
 					if ($item[5] == 'local') {
@@ -162,6 +164,12 @@ class Pelayanan extends CI_Controller {
 				}
 			  $this->lapi->append_chat($item[0],$item[1],$item[2],$item[3],$item[4],$item[5],$item[6]);
 			}
+
+			$last_id_local = $last_id_local == null ? $this->input->post('last_id_local') : $last_id_local;
+			$last_id_line = $last_id_line == null ? $this->input->post('last_id_line') : $last_id_line;
+		}
+		if ($this->input->post('last_id_line') == $last_id_line && $this->input->post('last_id_local') == $last_id_local) {
+			return;
 		}
 		?>
 		<script type="text/javascript">

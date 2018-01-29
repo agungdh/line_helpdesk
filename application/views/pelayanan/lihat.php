@@ -70,11 +70,7 @@ $(document).ready(function(){
         },
         function(data,status){
           $('#div_ajax').prepend(data),
-          $("#bisa_refresh").val('1'),
-          alert(
-            'local = ' + $('#last_id_local').val() + "\n"
-            + 'line = ' + $('#last_id_line').val()
-            );
+          $("#bisa_refresh").val('1');
         }); 
     });
 
@@ -86,7 +82,8 @@ $(document).ready(function(){
           id_line: $("#id_line").val(),
         },
         function(data,status){
-            $("#chat").val('');
+            $("#chat").val(''),
+            $("#refresh").click();
         }); 
     });
 
@@ -95,6 +92,8 @@ $(document).ready(function(){
         $("#kirim").click();
     }
   });
+
+  setInterval(function(){ $("#refresh").click(); }, 1000);
 
 });
 </script>
