@@ -72,7 +72,6 @@ $(document).ready(function(){
           $('#div_ajax').prepend(data),
           $("#bisa_refresh").val('1');
         });
-        $("#chat").prop('disabled', false);
     });
 
   $("#kirim").click(function(){
@@ -85,7 +84,8 @@ $(document).ready(function(){
         },
         function(data,status){
             $("#refresh").click(),
-            $("#chat").val('');
+            $("#chat").val(''),
+            $("#chat").prop('disabled', false);
         }); 
     });
 
