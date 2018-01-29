@@ -82,19 +82,32 @@ class M_api extends CI_Model{
 		return $this->db->query($sql, array($id_line))->row();
 	}
 
-	function ambil_chat_masuk($id_pelayanan) {
+	function ambil_chat_masuk($id_pelayanan, $last_id = null) {
 		$sql = "SELECT cm.id, cm.id_pelayanan, cm.tipe, cm.isi, cm.waktu, p.id_line
 				FROM chat_masuk cm, pelayanan p
 				WHERE cm.id_pelayanan = p.id
 				AND id_pelayanan = ?";
+
+		if ($last_id != null) {
+			$sql .= " AND cm.id > ?";
+			return $this->db->query($sql, array($id_pelayanan, $last_id))->result();
+		}
+
 		return $this->db->query($sql, array($id_pelayanan))->result();
 	}
 
-	function ambil_chat_keluar($id_pelayanan) {
+	function ambil_chat_keluar($id_pelayanan, $last_id = null) {
 		$sql = "SELECT ck.id, ck.id_user, ck.id_pelayanan, ck.tipe, ck.isi, ck.waktu, u.username, u.nama, u.level
 				FROM chat_keluar ck, user u
 				WHERE ck.id_user = u.id
 				AND ck.id_pelayanan = ?";
+
+		if ($last_id != null) {
+			$sql .= " AND ck.id > ?";
+			return $this->db->query($sql, array($id_pelayanan, $last_id))->result();
+		}
+
+
 		return $this->db->query($sql, array($id_pelayanan))->result();
 	}
 

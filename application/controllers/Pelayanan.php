@@ -108,30 +108,60 @@ class Pelayanan extends CI_Controller {
 
 	function ajax_cek_pesan_baru() {
 		$id_pelayanan = $this->input->post('id_pelayanan');
-		$chat_masuk = $this->m_api->ambil_chat_masuk($id_pelayanan);
-		$chat_keluar = $this->m_api->ambil_chat_keluar($id_pelayanan);
-		$chat_sementara = $this->lapi->ambil_chat($chat_masuk, $chat_keluar);
-		$chat = array();
-		$i = 0;
-		foreach ($chat_sementara['waktu'] as $item) {
-			$chat[] = array($chat_sementara['waktu'][$i], $chat_sementara['nama'][$i], $chat_sementara['tipe'][$i], $chat_sementara['isi'][$i], $chat_sementara['id_user'][$i], $chat_sementara['tipe_user'][$i], $chat_sementara['id_chat'][$i]);
-			$i++;
-		}
+		
+		if ($this->input->post('last_id_local') == 0 && $this->input->post('last_id_line') == 0) {
+			$chat_masuk = $this->m_api->ambil_chat_masuk($id_pelayanan);
+			$chat_keluar = $this->m_api->ambil_chat_keluar($id_pelayanan);
+			$chat_sementara = $this->lapi->ambil_chat($chat_masuk, $chat_keluar);
+			$chat = array();
+			$i = 0;
+			foreach ($chat_sementara['waktu'] as $item) {
+				$chat[] = array($chat_sementara['waktu'][$i], $chat_sementara['nama'][$i], $chat_sementara['tipe'][$i], $chat_sementara['isi'][$i], $chat_sementara['id_user'][$i], $chat_sementara['tipe_user'][$i], $chat_sementara['id_chat'][$i]);
+				$i++;
+			}
 
-		$last_id_local = null;
-		$last_id_line = null;
-		foreach ($chat as $item) {
-			if ($last_id_local == null) {
-				if ($item[5] == 'local') {
-					$last_id_local = $item[6];
+			$last_id_local = null;
+			$last_id_line = null;
+			foreach ($chat as $item) {
+				if ($last_id_local == null) {
+					if ($item[5] == 'local') {
+						$last_id_local = $item[6];
+					}
 				}
-			}
-			if ($last_id_line == null) {
-				if ($item[5] == 'line') {
-					$last_id_line = $item[6];
+				if ($last_id_line == null) {
+					if ($item[5] == 'line') {
+						$last_id_line = $item[6];
+					}
 				}
+			  $this->lapi->append_chat($item[0],$item[1],$item[2],$item[3],$item[4],$item[5],$item[6]);
 			}
-		  $this->lapi->append_chat($item[0],$item[1],$item[2],$item[3],$item[4],$item[5],$item[6]);
+		} else {
+			$last_id_local = $this->input->post('last_id_local');
+			$last_id_line = $this->input->post('last_id_line');
+
+			$chat_masuk = $this->m_api->ambil_chat_masuk($id_pelayanan, $last_id_line);
+			$chat_keluar = $this->m_api->ambil_chat_keluar($id_pelayanan, $last_id_local);
+			$chat_sementara = $this->lapi->ambil_chat($chat_masuk, $chat_keluar);
+			$chat = array();
+			$i = 0;
+			foreach ($chat_sementara['waktu'] as $item) {
+				$chat[] = array($chat_sementara['waktu'][$i], $chat_sementara['nama'][$i], $chat_sementara['tipe'][$i], $chat_sementara['isi'][$i], $chat_sementara['id_user'][$i], $chat_sementara['tipe_user'][$i], $chat_sementara['id_chat'][$i]);
+				$i++;
+			}
+
+			foreach ($chat as $item) {
+				if ($last_id_local == null) {
+					if ($item[5] == 'local') {
+						$last_id_local = $item[6];
+					}
+				}
+				if ($last_id_line == null) {
+					if ($item[5] == 'line') {
+						$last_id_line = $item[6];
+					}
+				}
+			  $this->lapi->append_chat($item[0],$item[1],$item[2],$item[3],$item[4],$item[5],$item[6]);
+			}
 		}
 		?>
 		<script type="text/javascript">
