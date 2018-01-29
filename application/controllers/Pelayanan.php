@@ -19,6 +19,21 @@ class Pelayanan extends CI_Controller {
 		$this->load->view("template/template", $data);
 	}
 
+	function ajax_cek_pelayanan() {
+		$pelayanan = $this->m_pelayanan->ambil_pelayanan($this->input->post('id_pelayanan'));
+		?>
+		<div class="container">
+		  <img class="dp" src="<?php echo $this->lapi->ambil_picture_url($pelayanan->id_line); ?>" alt="Avatar">
+		  <span class="time-left"><?php echo $this->lapi->ambil_display_name($pelayanan->id_line); ?></span>
+		  <br>
+		  <span class="time-left"><?php echo $this->pustaka->tanggal_jam_indo($pelayanan->waktu); ?></span>
+		  <br>
+		  <?php echo $pelayanan->pelayanan; ?>
+		  <br>
+		</div>
+		<?php
+	}
+
 	function lihat($id_pelayanan){
 		$data['isi'] = "pelayanan/lihat";
 		$data['data']['id_pelayanan'] = $id_pelayanan;

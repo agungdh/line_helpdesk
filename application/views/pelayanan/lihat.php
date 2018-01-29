@@ -95,6 +95,14 @@ $(document).ready(function(){
 
   setInterval(function(){ $("#refresh").click(); }, 1000);
 
+  $.post('<?php echo base_url('pelayanan/ajax_cek_pelayanan'); ?>',
+        {
+          id_pelayanan: '<?php echo $id_pelayanan; ?>',
+        },
+        function(data,status){
+          $('#div_ajax_pelayanan').prepend(data);
+  });
+
 });
 </script>
 
@@ -142,15 +150,10 @@ Ubah Status => <a class="btn btn-success" href="<?php echo base_url('pelayanan/u
   
 </div>
 
-<div class="container">
-  <img class="dp" src="<?php echo $this->lapi->ambil_picture_url($pelayanan->id_line); ?>" alt="Avatar">
-  <span class="time-left"><?php echo $this->lapi->ambil_display_name($pelayanan->id_line); ?></span>
-  <br>
-  <span class="time-left"><?php echo $this->pustaka->tanggal_jam_indo($pelayanan->waktu); ?></span>
-  <br>
-  <?php echo $pelayanan->pelayanan; ?>
-  <br>
+<div id="div_ajax_pelayanan">
+  
 </div>
+
 <input type="hidden" name="last_id_local" id="last_id_local" value="0">
 <input type="hidden" name="last_id_line" id="last_id_line" value="0">
 <input type="hidden" name="bisa_refresh" id="bisa_refresh" value="1">
