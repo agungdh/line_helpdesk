@@ -46,23 +46,63 @@ Class Api extends CI_Controller{
                         $reply['messages'][0]['text'] = "pelayanan anda telah kami terima dan sedang menunggu antrian untuk di proses. ID pelayanan anda = " . $pelayanan;
                     }                    
                 }  
-            } elseif ($pesan_datang == 'status') {
-                $pesan_balasan = "Data pelayanan\n";    
-                $item = $this->m_api->ambil_pelayanan($userId);
-                if ($item->status == 0) {
-                    $status = "Belum Diproses";
-                } elseif ($item->status == 1) {
-                    $status = "Sedang diproses";
-                } elseif ($item->status == 2) {
-                    $status = "Selesai";
+            } if (strpos($pesan_datang, 'status') !== false) { 
+                $pesan_status = explode('#', $pesan_datang_raw);
+                if (count($pesan_status) == 1) {
+                    $pesan_balasan = "Data pelayanan\n";    
+                    foreach ($this->m_api->ambil_semua_pelayanan($userId) as $item) {
+                        if ($item->status == 0) {
+                            $status = "Belum Diproses";
+                        } elseif ($item->status == 1) {
+                            $status = "Sedang diproses";
+                        } elseif ($item->status == 2) {
+                            $status = "Selesai";
+                        } else {
+                            $status = "Error !!!";
+                        }
+                        $pesan_balasan .= 'Pelayanan dengan nomor ' . $item->id . "\n";    
+                        $pesan_balasan .= $item->waktu . "\n";    
+                        $pesan_balasan .= $item->pelayanan . "\n";    
+                        $pesan_balasan .= "Status = " . $status . "\n";                        
+                    }
+                } elseif (count($pesan_status) == 2) {
+                    $item = $this->m_api->ambil_pelayanan_id($pesan_status[1]);
+                    if ($item == null) {
+                        $pesan_balasan = "Pelayanan tidak ada";
+                    } else {
+                        if ($item->status == 0) {
+                            $status = "Belum Diproses";
+                        } elseif ($item->status == 1) {
+                            $status = "Sedang diproses";
+                        } elseif ($item->status == 2) {
+                            $status = "Selesai";
+                        } else {
+                            $status = "Error !!!";
+                        }
+                        
+                        $pesan_balasan .= 'Pelayanan dengan nomor ' . $item->id . "\n";    
+                        $pesan_balasan .= $item->waktu . "\n";    
+                        $pesan_balasan .= $item->pelayanan . "\n";    
+                        $pesan_balasan .= "Status = " . $status . "\n";                        
+                    }
+                } elseif (count($pesan_status) == 3) {
+                    $item = $this->m_api->ambil_pelayanan_id($pesan_status[1]);
+                    if ($item->status == 0) {
+                        $status = "Belum Diproses";
+                    } elseif ($item->status == 1) {
+                        $status = "Sedang diproses";
+                    } elseif ($item->status == 2) {
+                        $status = "Selesai";
+                    } else {
+                        $status = "Error !!!";
+                    }
+                    
+                    $pesan_balasan .= $item->waktu . "\n";    
+                    $pesan_balasan .= $item->pelayanan . "\n";    
+                    $pesan_balasan .= "Status = " . $status . "\n";
                 } else {
-                    $status = "Error !!!";
+                    $pesan_balasan = "Error !!!";
                 }
-                
-                $pesan_balasan .= $item->waktu . "\n";    
-                $pesan_balasan .= $item->pelayanan . "\n";    
-                $pesan_balasan .= "Status = " . $status . "\n";    
-                
                 $reply['messages'][0]['text'] = $pesan_balasan;    
             } elseif ($pesan_datang == 'cekuser') {
                 $pesan_balasan = "ID User = " . $userId;    

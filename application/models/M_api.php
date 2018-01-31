@@ -73,6 +73,14 @@ class M_api extends CI_Model{
 		return $insert_id;
 	}
 
+	function ambil_semua_pelayanan($id_line) {
+		$sql = "SELECT *
+				FROM pelayanan
+				WHERE id_line = ?
+				ORDER BY id DESC";
+		return $this->db->query($sql, array($id_line))->result();
+	}
+
 	function ambil_pelayanan($id_line) {
 		$sql = "SELECT *
 				FROM pelayanan
@@ -80,6 +88,13 @@ class M_api extends CI_Model{
 				ORDER BY id DESC
 				LIMIT 1";
 		return $this->db->query($sql, array($id_line))->row();
+	}
+
+	function ambil_pelayanan_id($id) {
+		$sql = "SELECT *
+				FROM pelayanan
+				WHERE id = ?";
+		return $this->db->query($sql, array($id))->row();
 	}
 
 	function ambil_chat_masuk($id_pelayanan, $last_id = null) {
