@@ -6,7 +6,11 @@ Class Api extends CI_Controller{
 
     function __construct() {
         parent::__construct();
+        $this->load->model('m_pelayanan');
         $this->load->model('m_api');
+        // $this->load->library('lapi');
+        $this->load->library('pustaka');
+        $this->load->library('email');
 
         $this->channelAccessToken = 'mchj5ypkUUEAq2WvEMqR6BfROxk8l1JV8DvlAkNqZx6G3ZXUGq4ecN0DfqT8dr+ZiGnBZwGjdfJB0itvCcCLWR05UPoUM2ETakxFaNSmoZ9iCBpckQXL3n8krAUq35QXxuVwhb8b1AK8drhHEYI27QdB04t89/1O/w1cDnyilFU='; 
         $this->channelSecret = '2cf7003f0de82c2c18acc9389571da39';
@@ -86,20 +90,22 @@ Class Api extends CI_Controller{
                         $pesan_balasan .= "Status = " . $status . "\n";                        
                     }
                 } elseif (count($pesan_status) == 3) {
-                    $item = $this->m_api->ambil_pelayanan_id($pesan_status[1]);
-                    if ($item->status == 0) {
-                        $status = "Belum Diproses";
-                    } elseif ($item->status == 1) {
-                        $status = "Sedang diproses";
-                    } elseif ($item->status == 2) {
-                        $status = "Selesai";
-                    } else {
-                        $status = "Error !!!";
-                    }
+                    $id_pelayanan = $pesan_status[1];
+                    $data['id_pelayanan'] = $id_pelayanan;
+                    $data['email'] = $pesan_status[2];
+                    $this->load->view("dump/tes_kirim_email", $data);  
+
+                    $html = $this->output->get_output();
                     
-                    $pesan_balasan .= $item->waktu . "\n";    
-                    $pesan_balasan .= $item->pelayanan . "\n";    
-                    $pesan_balasan .= "Status = " . $status . "\n";
+                    $config['mailtype'] = 'html';
+                    $this->email->initialize($config);
+                    $this->email->to($pesan_status[2]);
+                    $this->email->from('agungdh@agungdh.com','AgungDH');
+                    $this->email->subject('test log');
+                    $this->email->message($html);
+                    $this->email->send();
+
+                    $pesan_balasan = "Email terkirim";
                 } else {
                     $pesan_balasan = "Error !!!";
                 }
