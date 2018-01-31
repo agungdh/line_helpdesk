@@ -91,21 +91,25 @@ Class Api extends CI_Controller{
                     }
                 } elseif (count($pesan_status) == 3) {
                     $id_pelayanan = $pesan_status[1];
-                    $data['id_pelayanan'] = $id_pelayanan;
-                    $data['email'] = $pesan_status[2];
-                    $this->load->view("dump/tes_kirim_email", $data);  
+                    $data_pelayanan = $this->m_pelayanan->ambil_pelayanan($id_pelayanan);
+                    $to = $pesan_status[2];
+                    $from_nama = 'AgungDH';
+                    $from_email = 'agungdh@agungdh.com';
+                    $subject = $data_pelayanan->pelayanan;
 
-                    $html = $this->output->get_output();
-                    
-                    $config['mailtype'] = 'html';
-                    $this->email->initialize($config);
-                    $this->email->to($pesan_status[2]);
-                    $this->email->from('agungdh@agungdh.com','AgungDH');
-                    $this->email->subject('test log');
-                    $this->email->message($html);
-                    $this->email->send();
+                    $params_curl = '?'.
+                                    'id_pelayanan='.$id_pelayanan.'&'.
+                                    'to='.$to.'&'.
+                                    'from_nama='.$from_nama.'&'.
+                                    'from_email='.$from_email.'&'.
+                                    'subject='.$subject;
+                    $params_curl = str_replace(" ", '%20', $params_curl);
+                    $ch = curl_init(base_url('pelayanan/kirim_email/' . $params_curl));
+                    curl_setopt($ch, CURLOPT_HEADER, 0);
+                    curl_exec($ch);
+                    curl_close($ch);
 
-                    $pesan_balasan = "Email terkirim";
+                    $pesan_balasan = 'Email terkirim';
                 } else {
                     $pesan_balasan = "Error !!!";
                 }

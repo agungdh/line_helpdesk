@@ -1,4 +1,10 @@
-<div>
+<!DOCTYPE html>
+<html>
+<head>
+  <title></title>
+</head>
+<body>
+  <div>
   [<?php echo $this->pustaka->tanggal_jam_indo($pelayanan->waktu); ?>] [<?php echo $this->lapi->ambil_display_name($pelayanan->id_line); ?>] <?php echo $pelayanan->pelayanan; ?>
 </div>
 
@@ -22,7 +28,7 @@ foreach ($chat as $item) {
   if ($item[2] == "text") {
     $isi = $item[3];
   } elseif ($item[2] == "image") {
-    $isi = base_url('api/gambar/'.$item[3]);
+    $isi = '<a href="'.base_url('api/gambar/'.$item[3]).'" target="_blank">'.base_url('api/gambar/'.$item[3]).'</a>';
   }
   ?>
 <div>
@@ -31,3 +37,5 @@ foreach ($chat as $item) {
 <?php
 }
 ?>
+</body>
+</html>

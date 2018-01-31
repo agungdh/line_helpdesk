@@ -63,6 +63,33 @@ class Pelayanan extends CI_Controller {
 		$this->dompdf->stream("test.pdf");
 	}
 
+	function kirim_email(){
+		$id_pelayanan = $this->input->get('id_pelayanan');
+		$data['id_pelayanan'] = $id_pelayanan;
+		$data['pelayanan'] = $this->m_pelayanan->ambil_pelayanan($id_pelayanan);
+		$chat_masuk = $this->m_api->ambil_chat_masuk($id_pelayanan);
+		$chat_keluar = $this->m_api->ambil_chat_keluar($id_pelayanan);
+		$chat_sementara = $this->lapi->ambil_chat_log($chat_masuk, $chat_keluar);
+		$chat = array();
+		$i = 0;
+		foreach ($chat_sementara['waktu'] as $item) {
+			$chat[] = array($chat_sementara['waktu'][$i], $chat_sementara['nama'][$i], $chat_sementara['tipe'][$i], $chat_sementara['isi'][$i], $chat_sementara['id_user'][$i], $chat_sementara['tipe_user'][$i], $chat_sementara['id_chat'][$i]);
+			$i++;
+		}
+		$data['chat'] = $chat;
+		$this->load->view("pelayanan/log", $data);	
+
+		$html = $this->output->get_output();
+		
+		$config['mailtype'] = 'html';
+		$this->email->initialize($config);
+		$this->email->to($this->input->get('to'));
+		$this->email->from($this->input->get('from_email'),$this->input->get('from_nama'));
+		$this->email->subject($this->input->get('subject'));
+		$this->email->message($html);
+		$this->email->send();
+	}
+
 	function log_test2($id_pelayanan, $to1 = 'agungdh', $to2 = 'live.com'){
 		$data['id_pelayanan'] = $id_pelayanan;
 		$data['pelayanan'] = $this->m_pelayanan->ambil_pelayanan($id_pelayanan);
