@@ -50,7 +50,7 @@ Class Api extends CI_Controller{
                         $reply['messages'][0]['text'] = "pelayanan anda telah kami terima dan sedang menunggu antrian untuk di proses. ID pelayanan anda = " . $pelayanan;
                     }                    
                 }  
-            } if (strpos($pesan_datang, 'status') !== false) { 
+            } elseif (strpos($pesan_datang, 'status') !== false) { 
                 $pesan_status = explode('#', $pesan_datang_raw);
                 if (count($pesan_status) == 1) {
                     $pesan_balasan = "Data pelayanan\n";    
