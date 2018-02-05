@@ -8,18 +8,50 @@
     <div class="box-body">
 
     <div class="form-group">
-      <label for="nama">Nama</label>
-          <input type="text" class="form-control" id="nama" placeholder="Isi nama" name="nama">          
-    </div>
-
-    <div class="form-group">
       <label for="username">Username</label>
           <input type="text" class="form-control" id="username" placeholder="Isi username" name="username">          
     </div>
 
     <div class="form-group">
+      <label for="nama">Nama</label>
+          <input type="text" class="form-control" id="nama" placeholder="Isi nama" name="nama">          
+    </div>
+
+    <div class="form-group">
       <label for="password">Password</label>
           <input type="password" class="form-control" id="password" placeholder="Isi password" name="password">          
+    </div>
+
+    <div class="form-group">
+      <label for="role">Role</label>
+      <div class="checkbox">
+        <label>
+          <input type="radio" name="radio" value='2'>
+          Administrator
+        </label>
+      </div>
+      <div class="checkbox">
+        <label>
+          <input type="radio" name="radio" value='1' checked>
+          Operator
+        </label>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="layanan">Layanan</label>
+      <?php
+      foreach ($layanan as $item) {
+        ?>
+      <div class="checkbox">
+        <label>
+          <input type="checkbox" name="<?php echo $item->id; ?>" value='1'>
+          <?php echo $item->layanan; ?>
+        </label>
+      </div>
+        <?php        
+      }
+      ?>
     </div>
 
     </div><!-- /.box-body -->

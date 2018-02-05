@@ -14,7 +14,7 @@ class Welcome extends CI_Controller {
 		$data['data']['pelayanan_belum'] = $this->m_welcome->ambil_jumlah_pelayanan_belum();
 		$data['data']['pelayanan_total'] = $this->m_welcome->ambil_jumlah_pelayanan();
 
-		$this->session->login != true ? $this->load->view("template/halaman_login") : $this->load->view('template/template',$data);;
+		$this->session->login != true ? $this->load->view("template/halaman_login") : $this->load->view('template/template',$data);
 	}
 
 }
