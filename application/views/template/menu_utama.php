@@ -13,7 +13,7 @@
 				if ($this->session->level == 2) {
 					foreach ($this->m_api->ambil_data_layanan() as $item) {
 						?>
-						<li><a href="<?php echo base_url('pelayanan/'.$item->id); ?>"><i class="fa fa-circle-o text-aqua"></i><span><?php echo $item->layanan; ?></span></a></li>
+						<li><a href="<?php echo base_url('pelayanan/nomor/'.$item->id); ?>"><i class="fa fa-circle-o text-aqua"></i><span><?php echo $item->layanan; ?></span></a></li>
 						<?php
 					}
 				} else {
