@@ -26,13 +26,13 @@
       <label for="role">Role</label>
       <div class="checkbox">
         <label>
-          <input type="radio" name="radio" value='2'>
+          <input type="radio" name="radio" id="radio" value='2'>
           Administrator
         </label>
       </div>
       <div class="checkbox">
         <label>
-          <input type="radio" name="radio" value='1' checked>
+          <input type="radio" name="radio" id="radio" checked value='1'>
           Operator
         </label>
       </div>
@@ -45,7 +45,7 @@
         ?>
       <div class="checkbox">
         <label>
-          <input type="checkbox" name="<?php echo $item->id; ?>" value='1'>
+          <input type="checkbox" id="layanan" name="<?php echo $item->id; ?>" value='1'>
           <?php echo $item->layanan; ?>
         </label>
       </div>
@@ -64,6 +64,18 @@
 </div><!-- /.box -->
 
 <script type="text/javascript">
+
+$(document).ready(function(){
+  $("input[name='radio']").click(function() {
+    console.log($("input[name='radio']:checked").val());
+    if ($("input[name='radio']:checked").val() == 2) {
+      $("input[id='layanan']").prop('disabled', true);
+      $("input[id='layanan']").prop('checked', false);
+    } else {
+      $("input[id='layanan']").prop('disabled', false);
+    }
+  });
+});
 
 $('#form').submit(function() 
 {
