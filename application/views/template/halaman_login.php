@@ -27,12 +27,12 @@ if ($this->input->get('valid') == '0') {
         <form role="form" method="post" name="loginForm" id="loginForm" action="<?php echo base_url('login'); ?>">
           
           <div class="form-group has-feedback">
-            <input name="username" id="username" type="text" class="form-control" placeholder="Username:">
+            <input name="username" required id="username" type="text" class="form-control" placeholder="Username:">
             <span class="glyphicon glyphicon-user form-control-feedback"></span>
           </div>
           
           <div class="form-group has-feedback">
-            <input name="password" id="password" type="password" class="form-control" placeholder="Password:">
+            <input name="password" required id="password" type="password" class="form-control" placeholder="Password:">
             <span class="glyphicon glyphicon-lock form-control-feedback"></span>
           </div>
           
@@ -52,15 +52,3 @@ if ($this->input->get('valid') == '0') {
 
   </body>
 </html>
-
-<script type="text/javascript">
-
-$('#loginForm').submit(function() 
-{
-    if ($.trim($("#username").val()) === "" || $.trim($("#password").val()) === "") {
-        alert('Masukkan Username dan Password !!!');
-    return false;
-    }
-});
-
-</script>
