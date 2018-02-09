@@ -67,7 +67,7 @@
 
 $(document).ready(function(){
   $("input[name='radio']").click(function() {
-    console.log($("input[name='radio']:checked").val());
+    // console.log($("input[name='radio']:checked").val());
     if ($("input[name='radio']:checked").val() == 2) {
       $("input[id='layanan']").prop('disabled', true);
       $("input[id='layanan']").prop('checked', false);
