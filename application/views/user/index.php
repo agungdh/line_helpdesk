@@ -44,7 +44,7 @@
             <td><?php echo $level; ?></td>
             <td>
               <a class="btn btn-primary" href="<?php echo base_url('pelayanan/ubah/'.$item->id); ?>">Ubah</a>
-              <a class="btn btn-danger" onclick="hapus()">Hapus</a>
+              <a class="btn btn-danger" onclick="hapus(<?php echo $item->id; ?>)">Hapus</a>
             </td>
           </tr>
           <?php
@@ -55,3 +55,11 @@
     </table>
   </div><!-- /.boxbody -->
 </div><!-- /.box -->
+
+<script type="text/javascript">
+function hapus(id) {
+  if (confirm("Yakin hapus ?")) {
+    window.location = "<?php echo base_url('user/aksi_hapus/'); ?>" + id;
+  }
+}
+</script>

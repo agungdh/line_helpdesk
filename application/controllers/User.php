@@ -23,7 +23,7 @@ class User extends CI_Controller {
 	}
 
 	public function aksi_tambah(){
-		$this->m_user->tambah_user($this->input->post('username'),
+		$id_user = $this->m_user->tambah_user($this->input->post('username'),
 									$this->input->post('nama'),
 									hash('sha512', $this->input->post('password')),
 									$this->input->post('radio')
@@ -31,12 +31,17 @@ class User extends CI_Controller {
 
 		foreach ($this->m_user->ambil_data_layanan() as $item) {
 			if ($this->input->post($item->id) == 1) {
-				
-			} else {
-				
+				$this->m_user->tambah_pelayan($id_user, $item->id);
 			}
 		}
 
+		redirect(base_url('user'));
+	}
+
+	function aksi_hapus($id_user) {
+		$this->m_user->hapus_pelayan($id_user);
+		$this->m_user->hapus_user($id_user);
+		
 		redirect(base_url('user'));
 	}
 

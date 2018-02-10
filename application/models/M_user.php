@@ -27,11 +27,22 @@ class M_user extends CI_Model{
 	}
 
 	function tambah_pelayan($id_user, $layanan) {
-		$sql = "INSERT INTO user
-				SET username = ?,
-				nama = ?,
-				password = ?";
-		$this->db->query($sql, array($username, $nama, $password));
+		$sql = "INSERT INTO pelayan
+				SET id_user = ?,
+				id_layanan = ?";
+		$this->db->query($sql, array($id_user, $layanan));
+	}
+
+	function hapus_pelayan($id_user) {
+		$sql = "DELETE FROM pelayan
+				WHERE id_user = ?";
+		$this->db->query($sql, array($id_user));	
+	}
+
+	function hapus_user($id_user) {
+		$sql = "DELETE FROM user
+				WHERE id = ?";
+		$this->db->query($sql, array($id_user));	
 	}
 }
 ?>
