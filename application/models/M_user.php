@@ -4,6 +4,20 @@ class M_user extends CI_Model{
 		parent::__construct();		
 	}
 
+	function ambil_data_user_id($id) {
+		$sql = "SELECT *
+				FROM user
+				WHERE id = ?";
+		return $this->db->query($sql, array($id))->row();
+	}
+
+	function ambil_data_pelayan_id_user($id_user) {
+		$sql = "SELECT *
+				FROM pelayan
+				WHERE id_user = ?";
+		return $this->db->query($sql, array($id_user))->result();
+	}
+
 	function ambil_data_user() {
 		$sql = "SELECT *
 				FROM user";
@@ -26,6 +40,15 @@ class M_user extends CI_Model{
 		return $this->db->insert_id();
 	}
 
+	function ubah_user($username, $nama, $level, $id) {
+		$sql = "UPDATE user
+				SET username = ?,
+				nama = ?,
+				level = ?
+				WHERE id = ?";
+		$this->db->query($sql, array($username, $nama, $level, $id));
+	}
+
 	function tambah_pelayan($id_user, $layanan) {
 		$sql = "INSERT INTO pelayan
 				SET id_user = ?,
@@ -43,6 +66,12 @@ class M_user extends CI_Model{
 		$sql = "DELETE FROM user
 				WHERE id = ?";
 		$this->db->query($sql, array($id_user));	
+	}
+	function ubah_password($password, $id_user) {
+		$sql = "UPDATE user
+				SET password = ?
+				WHERE id = ?";
+		$this->db->query($sql, array($password, $id_user));	
 	}
 }
 ?>

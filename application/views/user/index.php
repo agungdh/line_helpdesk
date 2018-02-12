@@ -43,7 +43,7 @@
             <td><?php echo $item->nama; ?></td>
             <td><?php echo $level; ?></td>
             <td>
-              <a class="btn btn-primary" href="<?php echo base_url('pelayanan/ubah/'.$item->id); ?>">Ubah</a>
+              <a class="btn btn-primary" href="<?php echo base_url('user/ubah/'.$item->id); ?>">Ubah</a>
               <a class="btn btn-danger" onclick="hapus(<?php echo $item->id; ?>)">Hapus</a>
             </td>
           </tr>
